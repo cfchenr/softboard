@@ -1,6 +1,6 @@
 # MEGUA
 
-## Ferramentas, linguagens, framewors, tecnologias
+## Ferramentas, linguagens, frameworks, tecnologias
 Django
 Rest
 Redux
@@ -12,3 +12,4 @@ CSS
 JSON
 Python
 Postman
+UML
