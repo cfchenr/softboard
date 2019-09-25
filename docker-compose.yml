@@ -5,7 +5,7 @@ services:
     image: postgres
   web:
     build: .
-    command: bash -c "source ../env/Scripts/activate && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "source ./env/Scripts/activate && cd megua && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/usr/src
     ports:
