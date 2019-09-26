@@ -45,11 +45,11 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        #'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 
-AUTH_USER_MODEL = "v1.MeguaUser" 
+AUTH_USER_MODEL = "v1.MeguaUser"
 
 
 MIDDLEWARE = [
@@ -88,11 +88,15 @@ WSGI_APPLICATION = 'megua.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -132,8 +136,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-import os
-PROJECT_DIR=os.path.dirname(__file__)
+PROJECT_DIR = os.path.dirname(__file__)
 
 STATIC_URL = '/static/'
-STATIC_ROOT= os.path.join(PROJECT_DIR,'static/')
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static/')
