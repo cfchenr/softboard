@@ -1,1 +1,1 @@
-web: gunicorn megua.wsgi --debug --log-level debug
+web: gunicorn megua:app --log-file=-
