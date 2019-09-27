@@ -13,3 +13,8 @@ JSON
 Python
 Postman
 UML
+
+## Testes à API
+Postman
+
+### Casoso de uso
