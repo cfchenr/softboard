@@ -18,3 +18,6 @@ UML
 Postman
 
 ### Casoso de uso
+
+## Deploy
+Heroku, com deploy automático do git (branch master)
