@@ -1,1 +1,0 @@
-web: gunicorn megua:megua --log-file=-
