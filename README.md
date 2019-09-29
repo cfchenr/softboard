@@ -1,5 +1,7 @@
 # MEGUA
 
+## Arquitetura
+
 ## Ferramentas, linguagens, frameworks, tecnologias
 Django
 Rest
