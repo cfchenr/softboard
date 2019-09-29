@@ -21,3 +21,4 @@ Postman
 
 ## Deploy
 Heroku, com deploy automático do git (branch master)
+megua.herokuapp.com
