@@ -11,3 +11,4 @@
 .env.production.local
 
 .vscode
+package-lock.json
