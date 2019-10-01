@@ -50,7 +50,7 @@ function App() {
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
-			<Container className="text-center">
+			{/*<Container className="text-center">
 				<Image src={logo} width={500} fluid />
 			</Container>
 			<Container>
@@ -67,7 +67,7 @@ function App() {
 						</InputGroup>
 					</Col>
 				</Row>
-			</Container>
+	</Container>*/}
 		</>
 	);
 }
