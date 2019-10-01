@@ -30,6 +30,7 @@
 		"react/jsx-indent-props": [2, "tab"],
 		"comma-dangle": ["error", "never"],
 		"camelcase": [2, { "properties": "always" }],
-		"object-shorthand": ["error", "never"]
+		"object-shorthand": ["error", "never"],
+		"linebreak-style": ["error", "windows"]
 	}
 }
