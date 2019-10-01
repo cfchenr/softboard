@@ -1,38 +1,41 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "proxy": "localhost:8000",
-  "dependencies": {
-    "react": "^16.10.1",
-    "react-dom": "^16.10.1",
-    "react-scripts": "3.1.2",
-    "yarn.lock": "^0.0.1-security"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "postinstall": "npm run build"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "engines": {
-    "node": "10.16.3",
-    "npm": "6.9.0"
-  }
+	"name": "frontend",
+	"version": "0.1.0",
+	"private": true,
+	"proxy": "http://localhost:8000",
+	"dependencies": {
+		"bootstrap": "^4.3.1",
+		"react": "^16.10.1",
+		"react-bootstrap": "^1.0.0-beta.12",
+		"react-dom": "^16.10.1",
+		"react-scripts": "3.1.2",
+		"yarn": "^1.19.0",
+		"yarn.lock": "^0.0.1-security"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject",
+		"postinstall": "npm run build"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"engines": {
+		"node": "10.16.3",
+		"npm": "6.9.0"
+	}
 }
