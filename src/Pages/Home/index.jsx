@@ -1,12 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import Navigationbar from '../Components/Navigationbar';
+import Navigationbar from "../Components/Navigationbar";
+import ListExercises from "../Components/ListExercises";
 
 export default function Home() {
-	return (
-		<>
-			<Navigationbar />
-			<h1>Home</h1>
-		</>
-	);
+  return (
+    <>
+      <div className="background">
+        <Navigationbar />
+        <ListExercises />
+      </div>
+    </>
+  );
 }

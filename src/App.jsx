@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
 // import Button from 'react-bootstrap/Button';
 // import FormControl from 'react-bootstrap/FormControl';
@@ -9,13 +9,13 @@ import './App.css';
 // import InputGroup from 'react-bootstrap/InputGroup';
 // import logo from './media/logo.png';
 
-import Routes from './routes';
+import Routes from "./routes";
 function App() {
-	return (
-		<>
-			<Routes />
-		</>
-	);
+  return (
+    <>
+      <Routes />
+    </>
+  );
 }
 
 export default App;
