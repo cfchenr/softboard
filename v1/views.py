@@ -15,8 +15,10 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 class UserTokenView(jwt_views.TokenViewBase):
     serializer_class = UserTokenSerializer
 
+
 class UserTokenRefreshView(jwt_views.TokenViewBase):
     serializer_class = UserTokenRefreshSerializer
+
 
 class UserRegisterView(views.APIView):
     serializer_class = UserRegisterSerializer
@@ -46,15 +48,16 @@ class UserRegisterView(views.APIView):
         else:
             return Response(serializer.errors)
 
+
 class UserListView(views.APIView):
     serializer_class = UserListSerializer
 
     def get(self, request):
         # try get logged user
         try:
-            user = MeguaUser.objects.get(pk=self.request.user.id)
+            user = MeguaUser.objects.get(pk=request.user.id)
         except Exception as e:
-            #TODO: Change error message
+            # TODO: Change error message
             return Response({'Error': str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
         if user.is_superuser:
@@ -72,6 +75,7 @@ class UserListView(views.APIView):
         # Return the serializer
         return paginator.get_paginated_response(serializer.data)
 
+
 class UserRetrieveView(views.APIView):
     serializer_class = UserRetrieveSerializer
 
@@ -80,7 +84,7 @@ class UserRetrieveView(views.APIView):
         try:
             user = MeguaUser.objects.get(pk=self.request.user.id)
         except Exception as e:
-            #TODO: Change error message
+            # TODO: Change error message
             return Response({'Error': str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
         # Get instance of pk
@@ -98,6 +102,7 @@ class UserRetrieveView(views.APIView):
 
         else:
             return Response({'Error': 'You don´t have permission for this action.'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()

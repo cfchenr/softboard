@@ -1,0 +1,172 @@
+html,
+body,
+#root {
+	min-height: 100%;
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+body {
+	text-rendering: optimizelegibility !important;
+	font-family: 'Roboto', sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+.background {
+	min-height: 100vh;
+	color: rgb(255, 255, 255);
+	background-color: rgb(19, 18, 26);
+	background-position: 0% 0%, 0% 0%;
+	background-repeat: repeat, repeat;
+	/* background-image: url("../img/blue_mountain_layers_5k-other.jpg"), none; */
+	background-origin: padding-box, padding-box;
+	background-clip: border-box, border-box;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+.content-body {
+	margin-top: 64px !important;
+	display: flex;
+	-moz-box-pack: center;
+	justify-content: center;
+}
+
+.content {
+	width: 100%;
+	max-width: 70%;
+	padding: 30px;
+}
+
+.content > div {
+	grid-template-rows: 20% 20% 20%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 25% 25% 25%;
+	gap: 30px;
+}
+
+.content-high {
+	display: flex;
+}
+
+.content-high:first-child {
+	grid-area: span 2 / span 1 / auto / auto;
+}
+
+.high {
+	background-color: rgb(25, 24, 31);
+	border-radius: 8px;
+	transition: all 0.2s ease 0s;
+	padding: 80px 50px;
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	-moz-box-pack: justify;
+	justify-content: space-between;
+	opacity: 1;
+	border: 2px solid rgb(48, 45, 56);
+}
+
+.high-header img {
+	margin-bottom: 35px;
+	max-height: 70px;
+}
+
+.high-header h1 {
+	font-size: 50px;
+	font-weight: bold;
+	color: rgb(255, 255, 255);
+	margin-bottom: 27px;
+}
+
+.high-header span {
+	display: block;
+	width: 363px;
+	font-size: 18px;
+	line-height: 1.5;
+	margin-bottom: 27px;
+	color: rgb(135, 134, 139);
+}
+
+.high-bottom {
+	position: relative;
+	align-self: flex-start;
+	padding: 20px;
+	background: rgb(4, 211, 97) none repeat scroll 0% 0%;
+	color: rgb(34, 34, 34);
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+}
+
+.tag-list {
+	display: flex;
+}
+
+.tag:first-child {
+	margin-left: 0px;
+}
+
+.tag:last-child {
+	margin-right: 0px;
+}
+
+.tag {
+	font-size: 12px;
+	line-height: 1.5;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding: 10px;
+	background: rgb(4, 211, 97) none repeat scroll 0% 0%;
+	color: rgb(34, 34, 34);
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+}
+
+.normal-flex {
+	display: flex;
+}
+
+.normal {
+	background-color: rgb(25, 24, 31);
+	border-radius: 8px;
+	transition: all 0.2s ease 0s;
+	padding: 80px 50px;
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	-moz-box-pack: justify;
+	justify-content: space-between;
+	opacity: 1;
+	border: 2px solid rgb(48, 45, 56);
+}
+
+.normal-content img {
+	margin-bottom: 30px;
+	max-height: 60px;
+}
+
+.normal-content h1 {
+	font-size: 30px;
+	font-weight: bold;
+	color: rgb(255, 255, 255);
+	margin-bottom: 20px;
+}
+
+.normal-content span {
+	display: block;
+	width: 168px;
+	font-size: 14px;
+	margin-bottom: 20px;
+	color: rgb(135, 134, 139);
+	line-height: 2;
+}
