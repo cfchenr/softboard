@@ -45,67 +45,13 @@ a {
 	padding: 30px;
 }
 
-.content > div {
+/* .content > div {
 	grid-template-rows: 20% 20% 20%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 25% 25% 25%;
 	gap: 30px;
-}
-
-.content-high {
-	display: flex;
-}
-
-.content-high:first-child {
-	grid-area: span 2 / span 1 / auto / auto;
-}
-
-.high {
-	background-color: rgb(25, 24, 31);
-	border-radius: 8px;
-	transition: all 0.2s ease 0s;
-	padding: 80px 50px;
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	-moz-box-pack: justify;
-	justify-content: space-between;
-	opacity: 1;
-	border: 2px solid rgb(48, 45, 56);
-}
-
-.high-header img {
-	margin-bottom: 35px;
-	max-height: 70px;
-}
-
-.high-header h1 {
-	font-size: 50px;
-	font-weight: bold;
-	color: rgb(255, 255, 255);
-	margin-bottom: 27px;
-}
-
-.high-header span {
-	display: block;
-	width: 363px;
-	font-size: 18px;
-	line-height: 1.5;
-	margin-bottom: 27px;
-	color: rgb(135, 134, 139);
-}
-
-.high-bottom {
-	position: relative;
-	align-self: flex-start;
-	padding: 20px;
-	background: rgb(4, 211, 97) none repeat scroll 0% 0%;
-	color: rgb(34, 34, 34);
-	border-radius: 4px;
-	cursor: pointer;
-	transition: all 0.3s ease 0s;
-}
+} */
 
 .tag-list {
 	display: flex;
@@ -125,10 +71,10 @@ a {
 	margin-left: 10px;
 	margin-right: 10px;
 	padding: 10px;
-	background: rgb(4, 211, 97) none repeat scroll 0% 0%;
+	background: rgb(4, 211, 97);
 	color: rgb(34, 34, 34);
 	border-radius: 4px;
-	cursor: pointer;
+	cursor: default;
 	transition: all 0.3s ease 0s;
 }
 
@@ -147,7 +93,12 @@ a {
 	-moz-box-pack: justify;
 	justify-content: space-between;
 	opacity: 1;
-	border: 2px solid rgb(48, 45, 56);
+	border: 2px solid rgb(25, 24, 31);
+}
+
+.normal:hover {
+	border-color: rgb(4, 211, 97);
+	padding: 40px 50px;
 }
 
 .normal-content img {
@@ -169,4 +120,36 @@ a {
 	margin-bottom: 20px;
 	color: rgb(135, 134, 139);
 	line-height: 2;
+}
+
+.button-nav {
+	position: relative;
+	align-self: flex-start;
+	padding: 20px;
+	margin: 10px;
+	background-color: rgb(4, 211, 97);
+	color: rgb(34, 34, 34) !important;
+	border-radius: 4px;
+	font-size: 12px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+	border: 2px solid rgb(4, 211, 97);
+}
+
+.button-nav:hover {
+	background-color: rgb(34, 34, 34);
+	color: rgb(4, 211, 97) !important;
+	font-size: 12px;
+	border: 2px solid rgb(4, 211, 97);
+}
+
+.mail-nav {
+	font-size: 14px;
+	color: rgb(135, 134, 139);
+}
+
+.navbar-line {
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(4, 211, 97);
+	border-bottom-style: solid;
 }
