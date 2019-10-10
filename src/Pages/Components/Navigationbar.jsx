@@ -104,10 +104,10 @@ export default function Navigationbar() {
 
 	return (
 		<Navbar
-			className='navbar-line fixed-top'
+			className="navbar-line fixed-top"
 			collapseOnSelect
-			variant='dark'
-			expand='lg'
+			variant="dark"
+			expand="lg"
 			style={{ backgroundColor: 'rgb(19, 18, 26)' }}
 		>
 			<Modal show={loginModalShow} onHide={handleCloseLogin}>
@@ -115,32 +115,32 @@ export default function Navigationbar() {
 					<Modal.Title>Entrar</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Form id='loginForm' onSubmit={handleSubmitLogin}>
+					<Form id="loginForm" onSubmit={handleSubmitLogin}>
 						<Form.Group>
 							<Form.Label>Nome de usuário</Form.Label>
 							<Form.Control
-								type='text'
-								name='username'
-								placeholder='Nome de usuário'
+								type="text"
+								name="username"
+								placeholder="Nome de usuário"
 							/>
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Palavra passe</Form.Label>
 							<Form.Control
-								type='password'
-								name='password'
-								placeholder='Palavra passe'
+								type="password"
+								name="password"
+								placeholder="Palavra passe"
 							/>
 						</Form.Group>
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button form='loginForm' type='submit' variant='primary'>
-						Login
+					<Button form="loginForm" type="submit" variant="primary">
+						Entrar
 					</Button>
-					<Button variant='secondary' onClick={handleCloseLogin}>
-						Close
+					<Button variant="secondary" onClick={handleCloseLogin}>
+						Cancelar
 					</Button>
 				</Modal.Footer>
 			</Modal>
@@ -150,85 +150,85 @@ export default function Navigationbar() {
 					<Modal.Title>Registar</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Form id='registerForm' onSubmit={handleSubmitRegister}>
+					<Form id="registerForm" onSubmit={handleSubmitRegister}>
 						<Form.Group>
 							<Form.Label>Nome de usuário</Form.Label>
 							<Form.Control
-								type='text'
-								name='username'
-								placeholder='Nome de usuário'
+								type="text"
+								name="username"
+								placeholder="Nome de usuário"
 							/>
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Palavra passe</Form.Label>
 							<Form.Control
-								type='password'
-								name='password'
-								autocomplete='off'
-								placeholder='Palavra passe'
+								type="password"
+								name="password"
+								autocomplete="off"
+								placeholder="Palavra passe"
 							/>
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Confirmar palavra passe</Form.Label>
 							<Form.Control
-								type='password'
-								name='cpassword'
-								placeholder='Confirmar palavra passe'
+								type="password"
+								name="cpassword"
+								placeholder="Confirmar palavra passe"
 							/>
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Primeiro nome</Form.Label>
 							<Form.Control
-								type='text'
-								name='fname'
-								placeholder='Primeiro nome'
+								type="text"
+								name="fname"
+								placeholder="Primeiro nome"
 							/>
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Último nome</Form.Label>
 							<Form.Control
-								name='lname'
-								placeholder='Último nome'
+								name="lname"
+								placeholder="Último nome"
 							/>
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Email</Form.Label>
 							<Form.Control
-								type='email'
-								name='email'
-								placeholder='Email'
+								type="email"
+								name="email"
+								placeholder="Email"
 							/>
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Confirmar email</Form.Label>
 							<Form.Control
-								type='email'
-								name='cemail'
-								autocomplete='off'
-								placeholder='Confirmar email'
+								type="email"
+								name="cemail"
+								autocomplete="off"
+								placeholder="Confirmar email"
 							/>
 						</Form.Group>
 						<Form.Group>
 							<Form.Label>Tipo de utilizador</Form.Label>
-							<Form.Control as='select' name='userType'>
-								<option value='ST'>Estudante</option>
-								<option value='PROF'>Professor</option>
+							<Form.Control as="select" name="userType">
+								<option value="ST">Estudante</option>
+								<option value="PROF">Professor</option>
 							</Form.Control>
 						</Form.Group>
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button form='registerForm' type='submit' variant='primary'>
-						Register
+					<Button form="registerForm" type="submit" variant="primary">
+						Registar
 					</Button>
-					<Button variant='secondary' onClick={handleCloseRegister}>
-						Close
+					<Button variant="secondary" onClick={handleCloseRegister}>
+						Cancelar
 					</Button>
 				</Modal.Footer>
 			</Modal>
@@ -237,52 +237,52 @@ export default function Navigationbar() {
 				<Navbar.Brand>
 					<Image
 						src={require('../../media/logo.png')}
-						alt='Brand'
+						alt="Brand"
 						style={{ height: '3em' }}
 					/>
 				</Navbar.Brand>
-				<Navbar.Toggle aria-controls='basic-navbar-nav' />
-				<Navbar.Collapse id='basic-navbar-nav'>
+				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+				<Navbar.Collapse id="basic-navbar-nav">
 					{loggedin ? (
-						<Nav className='ml-auto'>
+						<Nav className="ml-auto">
 							<Row>
-								<div className='ml-auto text-right'>
+								<div className="ml-auto text-right">
 									<Col>
 										{fname} {lname}
 									</Col>
-									<Col className='mail-nav'>{email}</Col>
+									<Col className="mail-nav">{email}</Col>
 								</div>
-								<div className='mr-3'>
+								<div className="mr-3">
 									<Image
-										width='50'
-										height='50'
+										width="50"
+										height="50"
 										roundedCircle
 										style={{
 											border: '3px solid rgb(4, 211, 97)'
 										}}
-										src='https://avatars2.githubusercontent.com/u/17366849?v=4'
-										alt='Profile'
+										src="https://avatars2.githubusercontent.com/u/17366849?v=4"
+										alt="Profile"
 									/>
 								</div>
 							</Row>
-							<Nav.Link className='button-nav' onClick={logout}>
+							<Nav.Link className="button-nav" onClick={logout}>
 								<strong>Logout</strong>
 							</Nav.Link>
 						</Nav>
 					) : (
 						<>
-							<Nav className='ml-auto'>
+							<Nav className="ml-auto">
 								<Nav.Link
-									className='button-nav'
+									className="button-nav"
 									onClick={handleShowLogin}
 								>
-									<strong>Login</strong>
+									<strong>Entrar</strong>
 								</Nav.Link>
 								<Nav.Link
-									className='button-nav'
+									className="button-nav"
 									onClick={handleShowRegister}
 								>
-									<strong>Register</strong>
+									<strong>Registar</strong>
 								</Nav.Link>
 							</Nav>
 						</>
