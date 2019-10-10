@@ -5,3 +5,10 @@ package-lock.json
 
 .eslint
 .prettier
+.eslintrc.json
+env
+build
+node_modules
+.vscode
+package-lock.json
+yarn.lock
