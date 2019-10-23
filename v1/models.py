@@ -29,7 +29,6 @@ class Exercise(models.Model):
     Title = models.CharField(max_length=100, blank=False, null=False)
     Problem = models.TextField(max_length=150000, blank=False, null=False)
     Resolution = models.TextField(max_length=150000, blank=True, null=True)
-    Solution = models.TextField(max_length=150000, blank=True, null=True)
     created_by = models.ForeignKey(
         MeguaUser, on_delete=models.DO_NOTHING, related_name="ExerciseCreatedBy")
     create_dt = models.DateTimeField(auto_now_add=True)
@@ -39,6 +38,24 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.Title
+
+
+class Subheading(models.Model):
+    Exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    Order = models.CharField(max_length=25, blank=False, null=False)
+    Question = models.CharField(max_length=100, blank=False, null=False)
+    Tags = models.CharField(max_length=250, blank=True, null=True)
+    Sugestion = models.CharField(max_length=2000, blank=True, null=True)
+    Solution = models.CharField(max_length=2000, blank=True, null=True)
+    created_by = models.ForeignKey(
+        MeguaUser, on_delete=models.DO_NOTHING, related_name="SubheadingCreatedBy")
+    create_dt = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(MeguaUser, blank=True, null=True,
+                                   on_delete=models.DO_NOTHING, related_name="SubheadingUpdatedBy")
+    update_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.Exercise + " - " + self.Order + ")" + self.Question
 
 
 class ExerciseFile(models.Model):
