@@ -1,7 +1,8 @@
 import { create } from 'apisauce';
 
 const api = create({
-	baseURL: 'https://megua.herokuapp.com/api/v1',
+	//baseURL: 'https://127.0.0.1:8000/api/v1',
+	baseURL: 'http://softboardua.herokuapp.com/api/v1',
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json'

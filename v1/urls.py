@@ -14,4 +14,5 @@ urlpatterns = [
     path('user/', views.UserListView.as_view(), name='user_megua_list'),
     path('user/<pk>/', views.UserRetrieveView.as_view(),
          name='user_megua_retrieve'),
+    path('uploadExercises/', views.UploadExercises.as_view(), name='upload_exercises')
 ]
