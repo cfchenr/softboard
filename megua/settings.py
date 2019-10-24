@@ -83,8 +83,10 @@ SIMPLE_JWT = {
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://megua.herokuapp.com",
-    "https://megua.herokuapp.com",
+    "http://softboardua.herokuapp.com",
+    "https://softboardua.herokuapp.com",
+    "http://softboarddev.herokuapp.com",
+    "https://softboarddev.herokuapp.com",
 ]
 
 
