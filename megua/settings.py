@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 from corsheaders.defaults import default_headers
+from datetime import timedelta
 import os
 import django_heroku
 
@@ -73,6 +74,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
+}
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
@@ -156,7 +162,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = []
 
 # If you want to serve user uploaded files add these settings
-MEDIA_URL = '/media/'
+MEDIA_URL = '/build/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'build', 'media')
+
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

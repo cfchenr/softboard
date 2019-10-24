@@ -9,7 +9,6 @@ import Image from 'react-bootstrap/Image';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
 
 import { post, get } from '../../services/api';
 
@@ -37,6 +36,7 @@ export default function Navigationbar() {
 				setEmail(response.results[0].email);
 			})
 			.catch(error => {
+				//TODO Tratamento de erros
 				console.log(error);
 			});
 	};
@@ -50,7 +50,10 @@ export default function Navigationbar() {
 				getPerfil();
 				handleCloseLogin();
 			})
-			.catch(error => console.log(error));
+			.catch(error => {
+				//TODO Tratamento de erros
+				console.log(error);
+			});
 	};
 
 	const register = data => {
@@ -59,7 +62,10 @@ export default function Navigationbar() {
 				login({ username: data.username, password: data.password });
 				handleCloseRegister();
 			})
-			.catch(error => console.log(error));
+			.catch(error => {
+				//TODO Tratamento de erros
+				console.log(error);
+			});
 	};
 
 	const logout = () => {
@@ -270,22 +276,20 @@ export default function Navigationbar() {
 							</Nav.Link>
 						</Nav>
 					) : (
-						<>
-							<Nav className="ml-auto">
-								<Nav.Link
-									className="button-nav"
-									onClick={handleShowLogin}
-								>
-									<strong>Entrar</strong>
-								</Nav.Link>
-								<Nav.Link
-									className="button-nav"
-									onClick={handleShowRegister}
-								>
-									<strong>Registar</strong>
-								</Nav.Link>
-							</Nav>
-						</>
+						<Nav className="ml-auto">
+							<Nav.Link
+								className="button-nav"
+								onClick={handleShowLogin}
+							>
+								<strong>Entrar</strong>
+							</Nav.Link>
+							<Nav.Link
+								className="button-nav"
+								onClick={handleShowRegister}
+							>
+								<strong>Registar</strong>
+							</Nav.Link>
+						</Nav>
 					)}
 				</Navbar.Collapse>
 			</Container>
