@@ -72,8 +72,8 @@ class ExerciseFile(models.Model):
     def save(self, *args, **kwargs):
         initial_path = self.File.path
 
-        new_path = (settings.MEDIA_ROOT, self.created_by.username,
-                    "Exercises", self.File.name)
+        new_path = os.path.join(settings.MEDIA_ROOT, self.created_by.username,
+                                "Exercises", self.File.name)
 
         if not os.path.exists(os.path.dirname(new_path)):
             os.makedirs(os.path.dirname(new_path))
