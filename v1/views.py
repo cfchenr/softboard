@@ -12,6 +12,8 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 import re
+import os
+from django.conf import settings
 
 
 # Create your views here.
@@ -126,24 +128,25 @@ class UploadExercises(views.APIView):
 
         if serializer.is_valid(raise_exception=True):
             serializer.save(created_by=user)
-            with open("./build/media/"+serializer.data["File"].split("/")[-1], 'r', encoding="utf8") as stream:
+            with open(os.path.join(settings.MEDIA_ROOT, user.username,
+                                   "Exercises", serializer.data["File"].split("/")[-1]), 'r', encoding="utf8") as stream:
                 data_loaded = yaml.safe_load(stream)
 
                 exercise = ExerciseSerializer(
                     data={"Problem": data_loaded["problem"], "Resolution": data_loaded["resolution"], "Title": data_loaded["title"]}, context={'request': request})
                 if exercise.is_valid(raise_exception=True):
-                    exercise.save(created_by=user)
+                    instance = exercise.save(created_by=user)
 
                     r = re.compile("question-*")
                     questions = list(filter(r.match, data_loaded))
 
                     for question in questions:
                         data = {}
-                        order = question.spli("-")[1]
+                        order = question.split("-")[1]
                         data["Order"] = order
                         data["Question"] = data_loaded["question-"+order]
                         if "tags-"+order in data_loaded:
-                            data["Tags"] = data_loaded["tags-"+order]
+                            data["Tags"] = str(data_loaded["tags-"+order])
                         if "suggestion-"+order in data_loaded:
                             data["Suggestion"] = data_loaded["suggestion-"+order]
                         if "solution-"+order in data_loaded:
@@ -152,7 +155,7 @@ class UploadExercises(views.APIView):
                         subheading = SubheadingSerializer(
                             data=data, context={'request': request})
                         if subheading.is_valid(raise_exception=True):
-                            subheading.save(created_by=user, Exercise=exercise)
+                            subheading.save(created_by=user, Exercise=instance)
 
                     return Response(exercise.data)
 

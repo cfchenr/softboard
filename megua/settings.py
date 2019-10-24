@@ -29,7 +29,8 @@ SECRET_KEY = 'eux2t!w1m8pky=txyrx&atj7f$#p480xd1ofey+o5m3bw5ul%y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['softboardua.herokuapp.com', 'softboarddev.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
+                 'softboardua.herokuapp.com', 'softboarddev.herokuapp.com']
 
 
 # Application definition
@@ -82,7 +83,9 @@ SIMPLE_JWT = {
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
+    "https://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://127.0.0.1:3000",
     "http://softboardua.herokuapp.com",
     "https://softboardua.herokuapp.com",
     "http://softboarddev.herokuapp.com",

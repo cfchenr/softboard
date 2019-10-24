@@ -43,7 +43,7 @@ class Exercise(models.Model):
 class Subheading(models.Model):
     Exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     Order = models.CharField(max_length=25, blank=False, null=False)
-    Question = models.CharField(max_length=100, blank=False, null=False)
+    Question = models.CharField(max_length=10000, blank=False, null=False)
     Tags = models.CharField(max_length=250, blank=True, null=True)
     Sugestion = models.CharField(max_length=2000, blank=True, null=True)
     Solution = models.CharField(max_length=2000, blank=True, null=True)
