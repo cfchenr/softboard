@@ -148,13 +148,13 @@ class SubheadingSerializer(serializers.ModelSerializer):
         view_name='v1:exercise-detail', read_only='True')
     created_by = serializers.HyperlinkedRelatedField(
         view_name='v1:user_megua_retrieve', read_only='True')
-    modified_by = serializers.HyperlinkedRelatedField(
+    updated_by = serializers.HyperlinkedRelatedField(
         view_name='v1:user_megua_retrieve', read_only='True')
 
     class Meta:
         model = Subheading
         fields = ['Exercise', 'Order', 'Question', 'Tags', 'Sugestion',
-                  'Solution', 'created_by', 'created_at', 'modified_by', 'modified_at']
+                  'Solution', 'created_by', 'create_dt', 'updated_by', 'update_dt']
 
 
 class ExerciseFileSerializer(serializers.ModelSerializer):

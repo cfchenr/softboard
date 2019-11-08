@@ -12,6 +12,9 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 import re
+import os
+from django.conf import settings
+from rest_framework import filters
 
 
 # Create your views here.
@@ -110,7 +113,27 @@ class UserRetrieveView(views.APIView):
 class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
-    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['Title', 'Problem', 'subheading__Tags']
+
+
+class SubheadingViewSet(viewsets.ViewSet):
+    queryset = Subheading.objects.all()
+    serializer_class = SubheadingSerializer
+
+    def retrieve(self, request, pk=None):
+        exercise = Exercise.objects.get(pk=pk)
+        queryset = Subheading.objects.filter(Exercise=exercise.id)
+        subheadings = get_list_or_404(queryset)
+
+        # Get serializer and pagination
+        paginator = PageNumberPagination()
+        results = paginator.paginate_queryset(subheadings, request)
+        serializer = SubheadingSerializer(
+            results, context={'request': request}, many=True)
+
+        # Return the serializer
+        return paginator.get_paginated_response(serializer.data)
 
 
 class UploadExercises(views.APIView):
@@ -119,40 +142,97 @@ class UploadExercises(views.APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = ExerciseFileSerializer(
-            data=request.data, context={'request': request})
-
         user = MeguaUser.objects.get(pk=self.request.user.id)
+        # TODO: VERIFICAR SE O USER É PROF
+        if user.user_type == 'PROF':
+            return Response("error")
+
+        data = request.data
+
+        # TODO: VERIFICAR SE O EXERCICIO (FILE) JÁ EXISTE
+        # TODO: CASO EXISTA VERIFICAR SE É DO UTILIZADOR
+        # TODO: CASO EXISTA, CRIAR O EXERCISEFILESERIALIZER COM A INSTANCIA
+
+        fileExists = False
+
+        try:
+            queryset = ExerciseFile.objects.filter(
+                File=str(data["File"]))
+            file = get_object_or_404(queryset)
+            if file.created_by.id != user.id:
+                return Response("error2")
+            serializer = ExerciseFileSerializer(
+                file, data=data, context={'request': request}, partial=True)
+            fileExists = True
+        except Exception as e:
+            print(e)
+            serializer = ExerciseFileSerializer(
+                data=data, context={'request': request})
 
         if serializer.is_valid(raise_exception=True):
             serializer.save(created_by=user)
-            with open("./build/media/"+serializer.data["File"].split("/")[-1], 'r', encoding="utf8") as stream:
+            with open(os.path.join(settings.MEDIA_ROOT, user.username,
+                                   "Exercises", serializer.data["File"].split("/")[-1]), 'r', encoding="utf8") as stream:
                 data_loaded = yaml.safe_load(stream)
 
-                exercise = ExerciseSerializer(
-                    data={"Problem": data_loaded["problem"], "Resolution": data_loaded["resolution"], "Title": data_loaded["title"]}, context={'request': request})
+                # TODO: SE O EXERCICIO(FILE) EXISTIR, FAZER UPDATE AO EXERCICIO
+                if fileExists:
+                    exercise = ExerciseSerializer(Exercise.objects.get(ExerciseId=user.username + "_" + serializer.data["File"].split("/")[-1].split(".")[0]), data={
+                                                  "Problem": data_loaded["problem"], "Resolution": data_loaded["resolution"], "Title": data_loaded["title"]}, context={'request': request}, partial=True)
+                else:
+                    exercise = ExerciseSerializer(
+                        data={"Problem": data_loaded["problem"], "Resolution": data_loaded["resolution"], "Title": data_loaded["title"]}, context={'request': request})
+
+                #TODO: KLASSIFY
+
                 if exercise.is_valid(raise_exception=True):
-                    exercise.save(created_by=user)
+                    if fileExists:
+                        instance = exercise.save(updated_by=user)
+                    else:
+                        instance = exercise.save(
+                            created_by=user, ExerciseId=user.username + "_" + serializer.data["File"].split("/")[-1].split(".")[0])
 
                     r = re.compile("question-*")
                     questions = list(filter(r.match, data_loaded))
 
                     for question in questions:
                         data = {}
-                        order = question.spli("-")[1]
+                        order = question.split("-")[1]
                         data["Order"] = order
                         data["Question"] = data_loaded["question-"+order]
                         if "tags-"+order in data_loaded:
-                            data["Tags"] = data_loaded["tags-"+order]
+                            data["Tags"] = str(data_loaded["tags-"+order])
                         if "suggestion-"+order in data_loaded:
                             data["Suggestion"] = data_loaded["suggestion-"+order]
                         if "solution-"+order in data_loaded:
                             data["Solution"] = data_loaded["solution-"+order]
 
-                        subheading = SubheadingSerializer(
-                            data=data, context={'request': request})
-                        if subheading.is_valid(raise_exception=True):
-                            subheading.save(created_by=user, Exercise=exercise)
+                        if fileExists:
+                            try:
+                                queryset = Subheading.objects.filter(
+                                    Exercise=instance, Order=order)
+                                subheading_instance = get_object_or_404(
+                                    queryset)
+                                subheading = SubheadingSerializer(subheading_instance,
+                                                                  data=data, context={'request': request})
+                                if subheading.is_valid(raise_exception=True):
+                                    subheading.save(
+                                        updated_by=user)
+                            except Exception as e:
+                                print(e)
+                                # TODO: CASO O EXERCICIO EXISTA, FAZER UPDATE A ALINEA, CASO NÃO SEJA NOVA
+                                # TODO: VERIFICAR SE ESTAO NA BD A MAIS
+                                subheading = SubheadingSerializer(
+                                    data=data, context={'request': request})
+                                if subheading.is_valid(raise_exception=True):
+                                    subheading.save(
+                                        created_by=user, Exercise=instance)
+                        else:
+                            subheading = SubheadingSerializer(
+                                data=data, context={'request': request})
+                            if subheading.is_valid(raise_exception=True):
+                                subheading.save(
+                                    created_by=user, Exercise=instance)
 
                     return Response(exercise.data)
 

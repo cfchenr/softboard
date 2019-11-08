@@ -29,7 +29,8 @@ SECRET_KEY = 'eux2t!w1m8pky=txyrx&atj7f$#p480xd1ofey+o5m3bw5ul%y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['megua.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
+                 'softboardua.herokuapp.com', 'softboarddev.herokuapp.com']
 
 
 # Application definition
@@ -53,6 +54,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'PAGE_SIZE': 20,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 }
@@ -82,9 +84,13 @@ SIMPLE_JWT = {
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
+    "https://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://megua.herokuapp.com",
-    "https://megua.herokuapp.com",
+    "https://127.0.0.1:3000",
+    "http://softboardua.herokuapp.com",
+    "https://softboardua.herokuapp.com",
+    "http://softboarddev.herokuapp.com",
+    "https://softboarddev.herokuapp.com",
 ]
 
 
