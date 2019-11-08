@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 
 import { post, get } from '../../services/api';
@@ -27,6 +28,12 @@ export default function Navigationbar() {
 	const handleCloseRegister = () => setRegisterModalShow(false);
 	const handleShowRegister = () => setRegisterModalShow(true);
 
+	const [authError, setAuthError] = useState(null);
+	const [registerError, setRegisterError] = useState(null);
+	const [emailsMustMatch, setEmailsMustMatch] = useState(false);
+	const [passwordsMustMatch, setPasswordsMustMatch] = useState(false);
+	const [userExists, setUserExists] = useState(false);
+
 	const getPerfil = () => {
 		get('/user/', {}, localStorage.getItem('@megua:access_token'))
 			.then(response => {
@@ -38,13 +45,19 @@ export default function Navigationbar() {
 			.catch(error => {
 				//TODO Tratamento de erros
 				console.log(error);
+				if (error.status === 401) {
+					logout();
+				}
 			});
 	};
+
+	//TODO: Rever o token refresh
 
 	const login = credentials => {
 		post('/token/', credentials)
 			.then(response => {
 				setLoggedState(true);
+				setAuthError(null);
 				localStorage.setItem('@megua:access_token', response.access);
 				localStorage.setItem('@megua:refresh_token', response.refresh);
 				getPerfil();
@@ -53,6 +66,24 @@ export default function Navigationbar() {
 			.catch(error => {
 				//TODO Tratamento de erros
 				console.log(error);
+				if (error.status >= 500) {
+					setAuthError(
+						'Ocorreu um problema interno. Por favor tente novamente mais tarde.'
+					);
+				} else if (error.status === 404) {
+					setAuthError(
+						'Ocorreu um problema interno. Por favor tente novamente mais tarde.'
+					);
+				} else if (error.status === null) {
+					setAuthError(
+						'Ocorreu um problema interno. Por favor tente novamente mais tarde.'
+					);
+				} else if (
+					error.data.detail ===
+					'No active account found with the given credentials'
+				) {
+					setAuthError('Nome do usuário ou password errados.');
+				}
 			});
 	};
 
@@ -60,11 +91,46 @@ export default function Navigationbar() {
 		post('/register/', data)
 			.then(response => {
 				login({ username: data.username, password: data.password });
+				setRegisterError(null);
+				setEmailsMustMatch(false);
+				setUserExists(false);
+				setPasswordsMustMatch(false);
 				handleCloseRegister();
 			})
 			.catch(error => {
 				//TODO Tratamento de erros
 				console.log(error);
+				setEmailsMustMatch(false);
+				setPasswordsMustMatch(false);
+				setUserExists(false);
+				setRegisterError(null);
+				if (error.status >= 500) {
+					setRegisterError(
+						'Ocorreu um problema interno. Por favor tente novamente mais tarde.'
+					);
+				} else if (error.status === 404) {
+					setRegisterError(
+						'Ocorreu um problema interno. Por favor tente novamente mais tarde.'
+					);
+				} else if (error.status === null) {
+					setRegisterError(
+						'Ocorreu um problema interno. Por favor tente novamente mais tarde.'
+					);
+				} else if (error.data) {
+					for (let item in error.data) {
+						switch (error.data[item][0]) {
+							case 'Emails must match':
+								setEmailsMustMatch(true);
+								break;
+							case 'Passwords must match':
+								setPasswordsMustMatch(true);
+								break;
+							case 'user with this username already exists.':
+								setUserExists(true);
+								break;
+						}
+					}
+				}
 			});
 	};
 
@@ -122,12 +188,17 @@ export default function Navigationbar() {
 				</Modal.Header>
 				<Modal.Body>
 					<Form id="loginForm" onSubmit={handleSubmitLogin}>
+						{authError && (
+							<Alert variant={'danger'}>{authError}</Alert>
+						)}
+
 						<Form.Group>
 							<Form.Label>Nome de usuário</Form.Label>
 							<Form.Control
 								type="text"
 								name="username"
 								placeholder="Nome de usuário"
+								required
 							/>
 						</Form.Group>
 
@@ -137,6 +208,7 @@ export default function Navigationbar() {
 								type="password"
 								name="password"
 								placeholder="Palavra passe"
+								required
 							/>
 						</Form.Group>
 					</Form>
@@ -157,13 +229,25 @@ export default function Navigationbar() {
 				</Modal.Header>
 				<Modal.Body>
 					<Form id="registerForm" onSubmit={handleSubmitRegister}>
+						{registerError &&
+							registerError.split(';').map(error => {
+								return (
+									<Alert variant={'danger'}>{error}</Alert>
+								);
+							})}
+
 						<Form.Group>
 							<Form.Label>Nome de usuário</Form.Label>
 							<Form.Control
 								type="text"
 								name="username"
 								placeholder="Nome de usuário"
+								isInvalid={userExists}
+								required
 							/>
+							<Form.Control.Feedback type="invalid">
+								Já existe um usuário com este nome
+							</Form.Control.Feedback>
 						</Form.Group>
 
 						<Form.Group>
@@ -171,8 +255,8 @@ export default function Navigationbar() {
 							<Form.Control
 								type="password"
 								name="password"
-								autocomplete="off"
 								placeholder="Palavra passe"
+								required
 							/>
 						</Form.Group>
 
@@ -181,8 +265,14 @@ export default function Navigationbar() {
 							<Form.Control
 								type="password"
 								name="cpassword"
+								autoComplete="confirm-password"
 								placeholder="Confirmar palavra passe"
+								isInvalid={passwordsMustMatch}
+								required
 							/>
+							<Form.Control.Feedback type="invalid">
+								As passwords devem coincidir
+							</Form.Control.Feedback>
 						</Form.Group>
 
 						<Form.Group>
@@ -191,6 +281,7 @@ export default function Navigationbar() {
 								type="text"
 								name="fname"
 								placeholder="Primeiro nome"
+								required
 							/>
 						</Form.Group>
 
@@ -199,6 +290,7 @@ export default function Navigationbar() {
 							<Form.Control
 								name="lname"
 								placeholder="Último nome"
+								required
 							/>
 						</Form.Group>
 
@@ -208,6 +300,7 @@ export default function Navigationbar() {
 								type="email"
 								name="email"
 								placeholder="Email"
+								required
 							/>
 						</Form.Group>
 
@@ -216,9 +309,14 @@ export default function Navigationbar() {
 							<Form.Control
 								type="email"
 								name="cemail"
-								autocomplete="off"
+								autoComplete="confirm-email"
 								placeholder="Confirmar email"
+								isInvalid={emailsMustMatch}
+								required
 							/>
+							<Form.Control.Feedback type="invalid">
+								Os emails devem coincidir
+							</Form.Control.Feedback>
 						</Form.Group>
 						<Form.Group>
 							<Form.Label>Tipo de utilizador</Form.Label>

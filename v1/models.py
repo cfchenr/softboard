@@ -24,6 +24,34 @@ class MeguaUser(AbstractUser):
         return self.first_name + " " + self.last_name
 
 
+class ExerciseFile(models.Model):
+    File = models.FileField(blank=False, null=False, unique=True)
+    last_modification = models.CharField(
+        max_length=150000, blank=False, null=False)
+    created_by = models.ForeignKey(
+        MeguaUser, on_delete=models.DO_NOTHING, related_name="ExerciseFileCreatedBy")
+    create_dt = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(MeguaUser, blank=True, null=True,
+                                   on_delete=models.DO_NOTHING, related_name="ExerciseFileUpdatedBy")
+    update_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        initial_path = self.File.path
+
+        new_path = os.path.join(settings.MEDIA_ROOT, self.created_by.username,
+                                "Exercises", self.File.name)
+
+        if not os.path.exists(os.path.dirname(new_path)):
+            os.makedirs(os.path.dirname(new_path))
+
+        if os.path.exists(new_path):
+            os.remove(new_path)
+
+        super(ExerciseFile, self).save(*args, **kwargs)
+
+        os.rename(self.File.path, new_path)
+
+
 class Exercise(models.Model):
     ExerciseId = models.CharField(max_length=150000, blank=False, null=False)
     Title = models.CharField(max_length=100, blank=False, null=False)
@@ -56,31 +84,3 @@ class Subheading(models.Model):
 
     def __str__(self):
         return self.Exercise + " - " + self.Order + ")" + self.Question
-
-
-class ExerciseFile(models.Model):
-    File = models.FileField(blank=False, null=False)
-    last_modification = models.CharField(
-        max_length=150000, blank=False, null=False)
-    created_by = models.ForeignKey(
-        MeguaUser, on_delete=models.DO_NOTHING, related_name="ExerciseFileCreatedBy")
-    create_dt = models.DateTimeField(auto_now_add=True)
-    updated_by = models.ForeignKey(MeguaUser, blank=True, null=True,
-                                   on_delete=models.DO_NOTHING, related_name="ExerciseFileUpdatedBy")
-    update_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        initial_path = self.File.path
-
-        new_path = os.path.join(settings.MEDIA_ROOT, self.created_by.username,
-                                "Exercises", self.File.name)
-
-        if not os.path.exists(os.path.dirname(new_path)):
-            os.makedirs(os.path.dirname(new_path))
-
-        if os.path.exists(new_path):
-            os.remove(new_path)
-
-        super(ExerciseFile, self).save(*args, **kwargs)
-
-        os.rename(self.File.path, new_path)
