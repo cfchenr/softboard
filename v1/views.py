@@ -16,7 +16,6 @@ import os
 from django.conf import settings
 from rest_framework import filters
 
-
 # Create your views here.
 class UserTokenView(jwt_views.TokenViewBase):
     serializer_class = UserTokenSerializer
@@ -186,11 +185,15 @@ class UploadExercises(views.APIView):
                 #TODO: KLASSIFY
 
                 if exercise.is_valid(raise_exception=True):
+<<<<<<< HEAD
                     if fileExists:
                         instance = exercise.save(updated_by=user)
                     else:
                         instance = exercise.save(
                             created_by=user, ExerciseId=user.username + "_" + serializer.data["File"].split("/")[-1].split(".")[0])
+=======
+                    instance = exercise.save(created_by=user)
+>>>>>>> origin/dev
 
                     r = re.compile("question-*")
                     questions = list(filter(r.match, data_loaded))
@@ -207,6 +210,7 @@ class UploadExercises(views.APIView):
                         if "solution-"+order in data_loaded:
                             data["Solution"] = data_loaded["solution-"+order]
 
+<<<<<<< HEAD
                         if fileExists:
                             try:
                                 queryset = Subheading.objects.filter(
@@ -233,6 +237,12 @@ class UploadExercises(views.APIView):
                             if subheading.is_valid(raise_exception=True):
                                 subheading.save(
                                     created_by=user, Exercise=instance)
+=======
+                        subheading = SubheadingSerializer(
+                            data=data, context={'request': request})
+                        if subheading.is_valid(raise_exception=True):
+                            subheading.save(created_by=user, Exercise=instance)
+>>>>>>> origin/dev
 
                     return Response(exercise.data)
 
