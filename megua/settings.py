@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 from corsheaders.defaults import default_headers
+from datetime import timedelta
 import os
 import django_heroku
 
@@ -28,7 +29,8 @@ SECRET_KEY = 'eux2t!w1m8pky=txyrx&atj7f$#p480xd1ofey+o5m3bw5ul%y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['megua.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
+                 'softboardua.herokuapp.com', 'softboarddev.herokuapp.com']
 
 
 # Application definition
@@ -74,11 +76,20 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
+}
+
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
+    "https://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://megua.herokuapp.com",
-    "https://megua.herokuapp.com",
+    "https://127.0.0.1:3000",
+    "http://softboardua.herokuapp.com",
+    "https://softboardua.herokuapp.com",
+    "http://softboarddev.herokuapp.com",
+    "https://softboarddev.herokuapp.com",
 ]
 
 
@@ -156,7 +167,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = []
 
 # If you want to serve user uploaded files add these settings
-MEDIA_URL = '/media/'
+MEDIA_URL = '/build/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'build', 'media')
+
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

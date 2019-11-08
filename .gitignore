@@ -3,5 +3,5 @@ node_modules
 .vscode
 package-lock.json
 
-.eslint
+.eslintrc.json
 .prettier

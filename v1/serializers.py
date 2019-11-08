@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.settings import api_settings
 from django.core.exceptions import ValidationError
 
+
 class UserTokenSerializer(jwt_serializers.TokenObtainSerializer):
     @classmethod
     def get_token(cls, user):
@@ -18,6 +19,7 @@ class UserTokenSerializer(jwt_serializers.TokenObtainSerializer):
         data['access'] = str(refresh.access_token)
 
         return data
+
 
 class UserTokenRefreshSerializer(jwt_serializers.TokenRefreshSerializer):
     refresh = serializers.CharField()
@@ -41,6 +43,7 @@ class UserTokenRefreshSerializer(jwt_serializers.TokenRefreshSerializer):
             data['refresh'] = str(refresh)
 
         return data
+
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     self = serializers.HyperlinkedIdentityField(
@@ -99,6 +102,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise ValidationError("Emails must match")
         return value
 
+
 class UserListSerializer(serializers.ModelSerializer):
     self = serializers.HyperlinkedIdentityField(
         view_name='v1:user_megua_retrieve')
@@ -111,6 +115,7 @@ class UserListSerializer(serializers.ModelSerializer):
         model = MeguaUser
         fields = ['self', 'username', 'first_name',
                   'last_name', 'email']
+
 
 class UserRetrieveSerializer(serializers.ModelSerializer):
     self = serializers.HyperlinkedIdentityField(
@@ -125,7 +130,41 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
         fields = ['self', 'username', 'first_name',
                   'last_name', 'email']
 
+
 class ExerciseSerializer(serializers.ModelSerializer):
+    ExerciseId = serializers.CharField(max_length=150000, read_only=True)
+    created_by = serializers.HyperlinkedRelatedField(
+        view_name='v1:user_megua_retrieve', read_only='True')
+    modified_by = serializers.HyperlinkedRelatedField(
+        view_name='v1:user_megua_retrieve', read_only='True')
+
     class Meta:
         model = Exercise
-        fields = '__all__'
+        fields = "__all__"
+
+
+class SubheadingSerializer(serializers.ModelSerializer):
+    Exercise = serializers.HyperlinkedRelatedField(
+        view_name='v1:exercise-detail', read_only='True')
+    created_by = serializers.HyperlinkedRelatedField(
+        view_name='v1:user_megua_retrieve', read_only='True')
+    modified_by = serializers.HyperlinkedRelatedField(
+        view_name='v1:user_megua_retrieve', read_only='True')
+
+    class Meta:
+        model = Subheading
+        fields = ['Exercise', 'Order', 'Question', 'Tags', 'Sugestion',
+                  'Solution', 'created_by', 'create_dt', 'modified_by', 'update_dt']
+
+
+class ExerciseFileSerializer(serializers.ModelSerializer):
+    last_modification = serializers.CharField(
+        max_length=150000, read_only=True)
+    created_by = serializers.HyperlinkedRelatedField(
+        view_name='v1:user_megua_retrieve', read_only='True')
+    updated_by = serializers.HyperlinkedRelatedField(
+        view_name='v1:user_megua_retrieve', read_only='True')
+
+    class Meta:
+        model = ExerciseFile
+        fields = "__all__"
