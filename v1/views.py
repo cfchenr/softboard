@@ -17,6 +17,8 @@ from django.conf import settings
 from rest_framework import filters
 
 # Create your views here.
+
+
 class UserTokenView(jwt_views.TokenViewBase):
     serializer_class = UserTokenSerializer
 
