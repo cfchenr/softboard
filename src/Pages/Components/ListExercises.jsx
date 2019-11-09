@@ -6,13 +6,21 @@ import { get } from '../../services/api';
 import parse from 'html-react-parser';
 import MathJax from 'react-mathjax2';
 
-export default function ListExercises() {
+export default function ListExercises(props) {
 	const [exercises, setExercises] = useState([]);
+
 	const getExercises = () => {
-		get('/exercise/', {})
+		const str =
+			props.search_string.trim() === ''
+				? '/exercise/'
+				: '/exercise/?search=' + props.search_string;
+		get(str, {})
 			.then(response => {
 				//TODO: para cada exercicio, ir buscar as alineas
-				var temp = [];
+				const temp = [];
+				if (response.results.length === 0) {
+					setExercises([]);
+				}
 				response.results.map((exercise, i) => {
 					get('/subheading/' + exercise.id + '/', {})
 						.then(response2 => {
@@ -33,7 +41,7 @@ export default function ListExercises() {
 
 	useEffect(() => {
 		getExercises();
-	}, []);
+	}, [props.search_string]);
 
 	return (
 		<div className="content-body">

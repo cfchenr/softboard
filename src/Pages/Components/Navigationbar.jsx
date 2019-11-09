@@ -10,10 +10,11 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 
 import { post, get } from '../../services/api';
 
-export default function Navigationbar() {
+export default function Navigationbar(props) {
 	const [loggedin, setLoggedState] = useState(false);
 	const [fname, setFname] = useState(null);
 	const [lname, setLname] = useState(null);
@@ -173,6 +174,10 @@ export default function Navigationbar() {
 			getPerfil();
 		}
 	}, []);
+
+	const search = event => {
+		props.setSearch(event.target.value);
+	};
 
 	return (
 		<Navbar
@@ -347,6 +352,15 @@ export default function Navigationbar() {
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
+					<Form className="ml-auto" inline>
+						<FormControl
+							type="text"
+							placeholder="Pesquisar"
+							className=" mr-sm-2"
+							onChange={search.bind(this)}
+						/>
+						<Button type="submit">Pesquisar</Button>
+					</Form>
 					{loggedin ? (
 						<Nav className="ml-auto">
 							<Row>
