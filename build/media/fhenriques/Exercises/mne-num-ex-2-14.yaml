@@ -1,13 +1,7 @@
-
-
-
 # YAML tutorial and guide
 # https://www.tutorialspoint.com/yaml/yaml_comments.htm
 
-
-
 title: "MNE Ex. 2.14 (de numérica)"
-
 
 problem: >
     <p>
@@ -25,49 +19,46 @@ problem: >
     \end{eqnarray*}
     $$
 
-
 question-a: > #mostra sempre
-   "Identifique, justificando, a <a href='http://sweet.ua.pt/pedrocruz/mne/d-distribuicoes.html'>distribuição teórica</a> de $X$."
+    Identifique, justificando, a <a href='http://sweet.ua.pt/pedrocruz/mne/d-distribuicoes.html'>distribuição teórica</a> de $X$.
 
 tags-a: #fica escondido do estudante; estas tags é que permitem escolher exercícios relacionados; ORDENAR POR FACILIDADE é um problema em aberto
-
     - distribuição contínua
     - distribuição uniforme
     - variável aleatória
 
-suggestion-a:   #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
+suggestion-a: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
     - sug1
     - sug2
 
-solution-a:  #escodida no início; abre se o estudante quiser ver
-    "tal e tal" 
-
+solution-a: #escodida no início; abre se o estudante quiser ver
+    "tal e tal"
 
 question-b: >
-   "2Identifique, justificando, a <a href='http://sweet.ua.pt/pedrocruz/mne/d-distribuicoes.html'>distribuição teórica</a> de $X$."
-
+    $f(x) = m\times + b$ Identifique, justificando, a <a href='http://sweet.ua.pt/pedrocruz/mne/d-distribuicoes.html'>distribuição teórica</a> de $X$.
 
 tags-b:
     - distribuição contínua
     - distribuição uniforme
     - variável aleatória
 
-suggestion-b: 
-
+suggestion-b:
     - sug1
     - sug2
 
 solution-b: "tal e tal"
 
+question-c: >
+    $$
+    \begin{eqnarray*}
+    f(x)=\left\{\begin{array}{lc}
+    2/3 & 1<x<2.5\\
+    0 & \mbox{outros } x
+    \end{array}\right.
+    \end{eqnarray*}
+    $$ Identifique, justificando, a <a href='http://sweet.ua.pt/pedrocruz/mne/d-distribuicoes.html'>distribuição teórica</a> de $X$.
 
-# question-?, tags-?, suggestion-? solution-? com ? in {a, ...,z} 
+# question-?, tags-?, suggestion-? solution-? com ? in {a, ...,z}
 
-
-resolution: >  
-   Resolução de todas as alíneas
-
-
-
-
-
+resolution: >
+    Resolução de todas as alíneas
