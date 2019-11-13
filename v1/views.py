@@ -155,7 +155,6 @@ class UploadExercises(views.APIView):
         # TODO: CASO EXISTA, CRIAR O EXERCISEFILESERIALIZER COM A INSTANCIA
 
         fileExists = False
-
         try:
             queryset = ExerciseFile.objects.filter(
                 File=str(data["File"]))
@@ -166,23 +165,26 @@ class UploadExercises(views.APIView):
                 file, data=data, context={'request': request}, partial=True)
             fileExists = True
         except Exception as e:
-            print(e)
             serializer = ExerciseFileSerializer(
                 data=data, context={'request': request})
 
         if serializer.is_valid(raise_exception=True):
             serializer.save(created_by=user)
+
             with open(os.path.join(settings.MEDIA_ROOT, user.username,
                                    "Exercises", serializer.data["File"].split("/")[-1]), 'r', encoding="utf8") as stream:
                 data_loaded = yaml.safe_load(stream)
 
                 # TODO: SE O EXERCICIO(FILE) EXISTIR, FAZER UPDATE AO EXERCICIO
+                resolution = ''
+                if "resolution" in data_loaded:
+                    resolution = data_loaded["resolution"]
                 if fileExists:
                     exercise = ExerciseSerializer(Exercise.objects.get(ExerciseId=user.username + "_" + serializer.data["File"].split("/")[-1].split(".")[0]), data={
-                                                  "Problem": data_loaded["problem"], "Resolution": data_loaded["resolution"], "Title": data_loaded["title"]}, context={'request': request}, partial=True)
+                                                  "Problem": data_loaded["problem"], "Resolution": resolution, "Title": data_loaded["title"]}, context={'request': request}, partial=True)
                 else:
                     exercise = ExerciseSerializer(
-                        data={"Problem": data_loaded["problem"], "Resolution": data_loaded["resolution"], "Title": data_loaded["title"]}, context={'request': request})
+                        data={"Problem": data_loaded["problem"], "Resolution": resolution, "Title": data_loaded["title"]}, context={'request': request})
 
                 #TODO: KLASSIFY
 
