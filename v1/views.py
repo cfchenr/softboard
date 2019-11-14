@@ -117,15 +117,19 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['Title', 'Problem', 'subheading__Tags']
 
-
+import time
 class SubheadingViewSet(viewsets.ViewSet):
     queryset = Subheading.objects.all()
     serializer_class = SubheadingSerializer
 
     def retrieve(self, request, pk=None):
-        exercise = Exercise.objects.get(pk=pk)
-        queryset = Subheading.objects.filter(Exercise=exercise.id)
-        subheadings = get_list_or_404(queryset)
+        try:
+            exercise = Exercise.objects.get(pk=pk)
+            queryset = Subheading.objects.filter(Exercise=exercise.id)
+            subheadings = get_list_or_404(queryset)
+        except Exception as e:
+            time.sleep(.100)
+            return Response({"hasNotSubHeadings": True})
 
         # Get serializer and pagination
         paginator = PageNumberPagination()
