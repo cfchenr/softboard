@@ -11,6 +11,7 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
+import ThemeSwitcher from './ThemeSwitcher';
 
 import { post, get } from "../../services/api";
 
@@ -187,7 +188,7 @@ export default function Navigationbar(props) {
       collapseOnSelect
       variant="dark"
       expand="lg"
-      style={{ backgroundColor: "rgb(19, 18, 26)" }}
+      style={{ backgroundColor: "--var(dark-color)" }}
     >
       <Modal show={loginModalShow} onHide={handleCloseLogin}>
         <Modal.Header closeButton>
@@ -391,6 +392,7 @@ export default function Navigationbar(props) {
               </Nav.Link>
             </Nav>
           )}
+          <ThemeSwitcher />
         </Navbar.Collapse>
       </Container>
     </Navbar>

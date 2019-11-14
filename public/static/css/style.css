@@ -13,6 +13,7 @@ body,
 body {
 	text-rendering: optimizelegibility !important;
 	font-family: 'Roboto', sans-serif;
+	background-color: var(--dark-color) !important;
 }
 
 a {
@@ -21,8 +22,8 @@ a {
 
 .background {
 	min-height: 100vh;
-	color: rgb(255, 255, 255);
-	background-color: rgb(19, 18, 26);
+	color: var(--white-color);
+	background-color: var(--black-color);
 	background-position: 0% 0%, 0% 0%;
 	background-repeat: repeat, repeat;
 	/* background-image: url("../img/blue_mountain_layers_5k-other.jpg"), none; */
@@ -71,8 +72,8 @@ a {
 	margin-left: 10px;
 	margin-right: 10px;
 	padding: 10px;
-	background: rgb(4, 211, 97);
-	color: rgb(34, 34, 34);
+	background: var(--green-color);
+	color: var(--black-color);
 	border-radius: 4px;
 	cursor: default;
 	transition: all 0.3s ease 0s;
@@ -83,7 +84,7 @@ a {
 }
 
 .normal {
-	background-color: rgb(25, 24, 31);
+	background-color: var(--black-color);
 	border-radius: 8px;
 	transition: all 0.2s ease 0s;
 	padding: 80px 50px;
@@ -93,11 +94,11 @@ a {
 	-moz-box-pack: justify;
 	justify-content: space-between;
 	opacity: 1;
-	border: 2px solid rgb(25, 24, 31);
+	border: 2px solid var(--black-color);
 }
 
 .normal:hover {
-	border-color: rgb(4, 211, 97);
+	border-color: var(--green-color);
 	padding: 40px 50px;
 }
 
@@ -109,7 +110,7 @@ a {
 .normal-content h1 {
 	font-size: 30px;
 	font-weight: bold;
-	color: rgb(255, 255, 255);
+	color: var(--white-color);
 	margin-bottom: 20px;
 }
 
@@ -118,7 +119,7 @@ a {
 	width: 168px;
 	font-size: 14px;
 	margin-bottom: 20px;
-	color: rgb(135, 134, 139);
+	color: var(--grey-color);
 	line-height: 2;
 }
 
@@ -127,29 +128,30 @@ a {
 	align-self: flex-start;
 	padding: 20px;
 	margin: 10px;
-	background-color: rgb(4, 211, 97);
-	color: rgb(34, 34, 34) !important;
+	background-color: var(--green-color);
+	color: var(--black-color) !important;
 	border-radius: 4px;
 	font-size: 12px;
 	cursor: pointer;
 	transition: all 0.3s ease 0s;
-	border: 2px solid rgb(4, 211, 97);
+	border: 2px solid var(--green-color);
 }
 
 .button-nav:hover {
-	background-color: rgb(34, 34, 34);
-	color: rgb(4, 211, 97) !important;
+	background-color: var(--black-color);
+	color: var(--green-color) !important;
 	font-size: 12px;
-	border: 2px solid rgb(4, 211, 97);
+	border: 2px solid var(--green-color);
 }
 
 .mail-nav {
 	font-size: 14px;
-	color: rgb(135, 134, 139);
+	color: var(--grey-color);
 }
 
 .navbar-line {
 	border-bottom-width: 1px;
-	border-bottom-color: rgba(4, 211, 97);
+	border-bottom-color: var(--green-color);
 	border-bottom-style: solid;
+    background-color: var(--black-color);
 }
