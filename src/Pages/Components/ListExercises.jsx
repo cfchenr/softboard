@@ -9,29 +9,38 @@ import MathJax from "react-mathjax2";
 export default function ListExercises(props) {
   const [exercises, setExercises] = useState([]);
 
+  function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if (new Date().getTime() - start > milliseconds) {
+        break;
+      }
+    }
+  }
+
   const getExercises = () => {
     const str =
       props.search_string.trim() === ""
         ? "/exercise/"
         : "/exercise/?search=" + props.search_string;
-    get(str, {})
+    return get(str, {})
       .then(response => {
-        console.log(response);
         //TODO: para cada exercicio, ir buscar as alineas
         const temp = [];
         if (response.results.length === 0) {
           setExercises([]);
         }
-        response.results.map((exercise, i) => {
-          get("/subheading/" + exercise.id + "/", {})
+        response.results.map(async (exercise, i) => {
+          return await get("/subheading/" + exercise.id + "/", {})
             .then(response2 => {
-              exercise.Subheadings = response2.results;
+              if (!exercise.hasNotSubHeadings) {
+                exercise.Subheadings = response2.results;
+              }
               temp[i] = exercise;
               if (i + 1 === response.results.length) setExercises(temp);
             })
             .catch(error2 => {
-              temp[i] = exercise;
-              if (i + 1 === response.results.length) setExercises(temp);
+              console.log(error2);
             });
         });
       })
@@ -88,10 +97,22 @@ export default function ListExercises(props) {
                           {") "}
                           {tags2.map((tag, m) => {
                             if (m % 2 === 0) {
-                              return parse(tag);
+                              return <div key={m}>{parse(tag)}</div>;
                             } else {
                               return (
-                                <MathJax.Context key={m}>
+                                <MathJax.Context
+                                  options={{
+                                    asciimath2jax: {
+                                      useMathMLspacing: true,
+                                      delimiters: [
+                                        ["$$", "$$"],
+                                        ["$", "$"]
+                                      ],
+                                      preview: "none"
+                                    }
+                                  }}
+                                  key={m}
+                                >
                                   <MathJax.Text text={tag} />
                                 </MathJax.Context>
                               );
