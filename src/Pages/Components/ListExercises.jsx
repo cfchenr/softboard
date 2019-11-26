@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { get } from "../../services/api";
 import parse from "html-react-parser";
 import MathJax from "react-mathjax2";
@@ -30,12 +33,43 @@ export default function ListExercises(props) {
         if (response.results.length === 0) {
           setExercises([]);
         }
+
         response.results.map(async (exercise, i) => {
           return await get("/subheading/" + exercise.id + "/", {})
             .then(response2 => {
               if (!exercise.hasNotSubHeadings) {
+                var indexSubheading = 0;
+                console.log(response2.results);
+                if (response2.results) {
+                  response2.results.map(subheading => {
+                    if (subheading.Question) {
+                      subheading.Question = subheading.Question.replace(
+                        /href/g,
+                        "target='_blank' href"
+                      );
+                    }
+                    if (subheading.Solution) {
+                      subheading.Solution = subheading.Solution.replace(
+                        /href/g,
+                        "target='_blank' href"
+                      );
+                    }
+                    if (subheading.Sugestion) {
+                      subheading.Sugestion = subheading.Sugestion.replace(
+                        /href/g,
+                        "target='_blank' href"
+                      );
+                    }
+                    response2.results[indexSubheading] = subheading;
+                    indexSubheading++;
+                  });
+                }
                 exercise.Subheadings = response2.results;
               }
+              exercise.Problem = exercise.Problem.replace(
+                /href/g,
+                "target='_blank' href"
+              );
               temp[i] = exercise;
               if (i + 1 === response.results.length) setExercises(temp);
             })
@@ -53,6 +87,13 @@ export default function ListExercises(props) {
   useEffect(() => {
     getExercises();
   }, [props.search_string]);
+
+  const [show, setShow] = useState(false);
+  const [modalTitle, setModalTitle] = useState("Error");
+  const [modalBody, setModalBody] = useState("Error");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <div className="content-body">
@@ -93,8 +134,10 @@ export default function ListExercises(props) {
                       const tags2 = subheading.Question.split("$$");
                       return (
                         <div key={j}>
-                          {subheading.Order}
-                          {") "}
+                          <b>
+                            {subheading.Order}
+                            {") "}
+                          </b>
                           {tags2.map((tag, m) => {
                             if (m % 2 === 0) {
                               return <div key={m}>{parse(tag)}</div>;
@@ -118,16 +161,71 @@ export default function ListExercises(props) {
                               );
                             }
                           })}
+                          <ButtonGroup size="sm" className="mt-3 mb-3">
+                            <Button
+                              variant="outline-warning"
+                              onClick={() => {
+                                setModalTitle("Sugestão");
+                                setModalBody(exercise.Sugestion);
+                                handleShow();
+                              }}
+                            >
+                              Sugestão
+                            </Button>
+                            <Button
+                              variant="outline-danger"
+                              onClick={() => {
+                                setModalTitle("Solução");
+                                setModalBody(exercise.Solution);
+                                handleShow();
+                              }}
+                            >
+                              Solução
+                            </Button>
+                            <Button
+                              variant="outline-info"
+                              onClick={() => {
+                                setModalTitle("Tags");
+                                setModalBody(exercise.Tags);
+                                handleShow();
+                              }}
+                            >
+                              Tags
+                            </Button>
+                          </ButtonGroup>
                           <div>{subheading.Sugestion}</div>
                         </div>
                       );
                     })}
+                  <Button
+                    variant="outline-success"
+                    size="sm"
+                    className="mt-3 mb-5"
+                    onClick={() => {
+                      setModalTitle("Resolução");
+                      setModalBody(exercise.Resolution);
+                      handleShow();
+                    }}
+                  >
+                    Resolução
+                  </Button>
                 </Col>
               );
             })}
           </Row>
         </Container>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{modalTitle}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalBody}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleClose}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

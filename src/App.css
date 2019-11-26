@@ -1,4 +1,4 @@
-@import  'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css';
+@import "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css";
 
 .App {
   text-align: center;
@@ -21,4 +21,8 @@
 
 .App-link {
   color: var(--green-color);
+}
+
+.ol {
+  margin-left: "5%";
 }
