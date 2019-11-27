@@ -185,7 +185,7 @@ class UploadExercises(views.APIView):
             with open(os.path.join(settings.MEDIA_ROOT, user.username,
                                    "Exercises", serializer.data["File"].split("/")[-1]), 'r', encoding="utf8") as stream:
                 data_loaded = yaml.safe_load(stream)
-
+                print(data_loaded)
                 # TODO: SE O EXERCICIO(FILE) EXISTIR, FAZER UPDATE AO EXERCICIO
                 resolution = ''
                 if "resolution" in data_loaded:
@@ -199,7 +199,7 @@ class UploadExercises(views.APIView):
                 if "tags" in data_loaded:
                     data["Tags"] = str(data_loaded["tags"])
                 if "suggestion" in data_loaded:
-                    data["Suggestion"] = data_loaded["suggestion"]
+                    data["Suggestion"] = str(data_loaded["suggestion"])
                 if "solution" in data_loaded:
                     data["Solution"] = data_loaded["solution"]
                 try:
@@ -228,7 +228,7 @@ class UploadExercises(views.APIView):
                         if "tags-"+order in data_loaded:
                             data["Tags"] = str(data_loaded["tags-"+order])
                         if "suggestion-"+order in data_loaded:
-                            data["Suggestion"] = data_loaded["suggestion-"+order]
+                            data["Suggestion"] = str(data_loaded["suggestion-"+order])
                         if "solution-"+order in data_loaded:
                             data["Solution"] = data_loaded["solution-"+order]
 

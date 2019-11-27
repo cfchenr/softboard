@@ -1,0 +1,84 @@
+
+
+title: "MNE Ex. 2.35 (estatística)"
+
+
+
+problem: >
+    O comprimento da vértebra lombar em indivíduos adultos é bem modelado 
+    por uma distribuição normal de média 60mm e desvio padrão 10mm.
+
+
+question-a: >
+    Qual a probabilidade de uma vértebra lombar seleccionada ao acaso ter comprimento superior a 66?
+
+
+tags-a:
+
+    - distribuição normal  
+
+
+    
+suggestion-a:
+
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-normal.html>Distribuição Normal</a>
+    
+solution-a: 0.2742
+
+
+
+question-b: >
+    Em 2000 vértebras lombares existentes num depósito, quantas se esperam terem comprimento superior a 66mm?
+
+
+tags-b:
+
+    - distribuição binomial
+      
+    
+suggestion-b:
+
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-binomial.html">distribuição binomial</a>
+    - $n \times p$  
+
+
+solution-b: aproximadamente 548
+
+
+question-c: >
+    Qual a probabilidade de uma vértebra lombar seleccionada ao acaso ter comprimento entre 60 e 66mm?\\
+
+tags-c:
+
+    - distribuição normal  
+
+suggestion-c:
+
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-normal.html>Distribuição Normal</a>
+    - Usar as  <a href="http://sweet.ua.pt/pedrocruz/mne/c-calculadoras.html">calculadoras</a>?
+
+solution-c:  0.225 
+
+
+
+
+question-d: >
+    Qual a probabilidade de numa amostra de dimensão 9 a média da amostra ser superior a 66mm?
+
+
+tags-d:
+
+    - média da amostra
+    - distribuição normal
+
+
+suggestion-d:
+    
+
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-normal.html#media-de-varias-va-normais">média de várias v.a. normais</a>
+      
+
+solution-d: 0.036
+
+
+

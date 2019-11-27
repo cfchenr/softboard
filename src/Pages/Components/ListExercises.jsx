@@ -193,7 +193,58 @@ export default function ListExercises(props) {
                               variant="outline-warning"
                               onClick={() => {
                                 setModalTitle("Sugestão");
-                                setModalBody(subheading.Sugestion);
+                                const string = subheading.Suggestion.substring(1, subheading.Suggestion.length-1)
+                                const array = string.split(",")
+
+                                console.log(subheading.Suggestion)
+                                setModalBody(array.map((item) => {
+                                  const value = item.trim().substring(1, item.trim().length-1)+" ";
+                                  return value.split("$$").map((tag3, tag3I) => {
+                                    if(tag3I % 2 == 0) {
+                                      return <MathJax.Context
+                                      options={{
+                                        asciimath2jax: {
+                                          useMathMLspacing: true,
+                                          delimiters: [
+                                            ["$", "$"]
+                                          ],
+                                          preview: "none"
+                                        }
+                                      }}
+                                      key={tag3I}
+                                    >
+                                      <MathJax.Text text={parse("<div>"+tag3+"<div>")} />
+                                    </MathJax.Context>
+                                    } else {
+                                      return (
+                                        <MathJax.Context
+                                          options={{
+                                            asciimath2jax: {
+                                              useMathMLspacing: true,
+                                              delimiters: [
+                                                ["$$", "$$"],
+                                                ["$", "$"]
+                                              ],
+                                              preview: "none"
+                                            }
+                                          }}
+                                          key={tag3I}
+                                        >
+                                          <MathJax.Text text={"$$"+tag3+"$$"} />
+                                        </MathJax.Context>
+                                      );
+                                    }
+                                  })
+                                  return parse()
+                                }))
+                                /*var array = subheading.Suggestion.replace(/"/g, '\'');
+                                array = array.replace(/'/g, '"');
+                                console.log(array)
+                                console.log(JSON.parse(array))
+                                */
+                                /*setModalBody(JSON.parse(array).map((tag, tagi) => {
+                                  return parse(tag)
+                                }));*/
                                 handleShow();
                               }}
                             >
@@ -248,7 +299,7 @@ export default function ListExercises(props) {
                               onClick={() => {
                                 setModalTitle("Tags");
                                 const array = subheading.Tags.replace(/'/g, '"');
-                                setModalBody( JSON.parse(array).map((tag, tagi) => {
+                                setModalBody(JSON.parse(array).map((tag, tagi) => {
                                   return <Badge variant="info mr-2">{tag}</Badge>
                                 })
                                 );
@@ -266,7 +317,10 @@ export default function ListExercises(props) {
                             variant="outline-warning"
                             onClick={() => {
                               setModalTitle("Sugestão");
-                              setModalBody(exercise.Sugestion);
+                              const array = exercise.Suggestion.replace(/'/g, '"');
+                              setModalBody(JSON.parse(array).map((tag, tagi) => {
+                                return parse(tag)
+                              }));
                               handleShow();
                             }}
                           >
