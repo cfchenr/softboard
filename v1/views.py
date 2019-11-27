@@ -193,15 +193,15 @@ class UploadExercises(views.APIView):
                 # VERIFICAR SE O EXERCICIO EXISTE NA BD
                 exerciseExist = False
                 data={}
-                    data["Problem"] = data_loaded["problem"]
-                    data["Resolution"] = resolution
-                    data["Title"] = data_loaded["title"]
-                    if "tags" in data_loaded:
-                        data["Tags"] = str(data_loaded["tags"])
-                    if "suggestion" in data_loaded:
-                        data["Suggestion"] = data_loaded["suggestion"]
-                    if "solution" in data_loaded:
-                        data["Solution"] = data_loaded["solution"]
+                data["Problem"] = data_loaded["problem"]
+                data["Resolution"] = resolution
+                data["Title"] = data_loaded["title"]
+                if "tags" in data_loaded:
+                    data["Tags"] = str(data_loaded["tags"])
+                if "suggestion" in data_loaded:
+                    data["Suggestion"] = data_loaded["suggestion"]
+                if "solution" in data_loaded:
+                    data["Solution"] = data_loaded["solution"]
                 try:
                     exercise = ExerciseSerializer(Exercise.objects.get(ExerciseId=user.username + "_" + serializer.data["File"].split("/")[-1].split(".")[0]), data=data, context={'request': request}, partial=True)
                     exerciseExist = True

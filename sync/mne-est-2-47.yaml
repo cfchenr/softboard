@@ -1,0 +1,36 @@
+
+
+title: "MNE Ex. 2.47 (estatística)"
+
+
+problem: >
+    <p>
+    Seja $(X_1,X_2, \ldots, X_{50})$ uma amostra aleatória com distribuição Uniforme no intervalo $(0,2)$. 
+    A estatística $Y=(X_1+X_2+ \ldots +X_{50})/50$ tem distribuição aproximadamente:
+    </p>    
+    <ol>
+    <li> N(1,1/150); </li>
+    <li> U(0,50); </li>
+    <li> N(1,1/12); </li>
+    <li> nenhuma das outras é verdadeira </li>
+    </ol>
+
+
+
+tags:
+
+    - distribuição uniforme
+    - distribuição normal
+    - teorema do limite central  
+  
+suggestion:
+
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-uniforme-continua.html">distribuição uniforme</a>
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-normal.html">distribuição normal</a>
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/TLC.html">teorema do limite central</a>
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/aa-media-amostral-aleatoria.html">média amostral</a>
+      
+
+solution: N(1,1/150)
+
+
