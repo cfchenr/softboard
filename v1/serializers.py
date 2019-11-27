@@ -153,7 +153,7 @@ class SubheadingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subheading
-        fields = ['Exercise', 'Order', 'Question', 'Tags', 'Sugestion', 'Solution', 'created_by', 'create_dt', 'updated_by', 'update_dt']
+        fields = ['Exercise', 'Order', 'Question', 'Tags', 'Suggestion', 'Solution', 'created_by', 'create_dt', 'updated_by', 'update_dt']
 
 
 class ExerciseFileSerializer(serializers.ModelSerializer):
