@@ -149,6 +149,7 @@ class UploadExercises(views.APIView):
     def post(self, request, *args, **kwargs):
         user = MeguaUser.objects.get(pk=self.request.user.id)
         # TODO: VERIFICAR SE O USER É PROF
+        # TODO: MUDAR
         if user.user_type == 'PROF':
             return Response("error")
 
@@ -158,13 +159,16 @@ class UploadExercises(views.APIView):
         # TODO: CASO EXISTA VERIFICAR SE É DO UTILIZADOR
         # TODO: CASO EXISTA, CRIAR O EXERCISEFILESERIALIZER COM A INSTANCIA
 
+        # VERIFICAR SE O FICHEIRO JÁ EXISTE
         fileExists = False
         try:
             queryset = ExerciseFile.objects.filter(
                 File=str(data["File"]))
             file = get_object_or_404(queryset)
             if file.created_by.id != user.id:
+                # JÁ EXISTE MAS FOI CRIADO POR OUTRO USER
                 return Response("error2")
+            # CARREGAR O SERIALIZER CASO O FICHEIRO ESTEJA NA BD
             serializer = ExerciseFileSerializer(
                 file, data=data, context={'request': request}, partial=True)
             fileExists = True
@@ -173,7 +177,10 @@ class UploadExercises(views.APIView):
                 data=data, context={'request': request})
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save(created_by=user)
+            if fileExists:
+                serializer.save(updated_by=user)
+            else: 
+                serializer.save(created_by=user)
 
             with open(os.path.join(settings.MEDIA_ROOT, user.username,
                                    "Exercises", serializer.data["File"].split("/")[-1]), 'r', encoding="utf8") as stream:
@@ -183,17 +190,28 @@ class UploadExercises(views.APIView):
                 resolution = ''
                 if "resolution" in data_loaded:
                     resolution = data_loaded["resolution"]
-                if fileExists:
-                    exercise = ExerciseSerializer(Exercise.objects.get(ExerciseId=user.username + "_" + serializer.data["File"].split("/")[-1].split(".")[0]), data={
-                                                  "Problem": data_loaded["problem"], "Resolution": resolution, "Title": data_loaded["title"]}, context={'request': request}, partial=True)
-                else:
-                    exercise = ExerciseSerializer(
-                        data={"Problem": data_loaded["problem"], "Resolution": resolution, "Title": data_loaded["title"]}, context={'request': request})
+                # VERIFICAR SE O EXERCICIO EXISTE NA BD
+                bool exerciseExist = False
+                data={}
+                    data["Problem"] = data_loaded["problem"]
+                    data["Resolution"] = resolution
+                    data["Title"] = data_loaded["title"]
+                    if "tags" in data_loaded:
+                        data["Tags"] = str(data_loaded["tags"])
+                    if "suggestion" in data_loaded:
+                        data["Suggestion"] = data_loaded["suggestion"]
+                    if "solution" in data_loaded:
+                        data["Solution"] = data_loaded["solution"]
+                try:
+                    exercise = ExerciseSerializer(Exercise.objects.get(ExerciseId=user.username + "_" + serializer.data["File"].split("/")[-1].split(".")[0]), data=data, context={'request': request}, partial=True)
+                    exerciseExist = True
+                except Exception as e:
+                    exercise = ExerciseSerializer(data=data, context={'request': request})
 
                 #TODO: KLASSIFY
 
                 if exercise.is_valid(raise_exception=True):
-                    if fileExists:
+                    if exerciseExist:
                         instance = exercise.save(updated_by=user)
                     else:
                         instance = exercise.save(
@@ -214,29 +232,26 @@ class UploadExercises(views.APIView):
                         if "solution-"+order in data_loaded:
                             data["Solution"] = data_loaded["solution-"+order]
 
-                        if fileExists:
-                            try:
-                                queryset = Subheading.objects.filter(
-                                    Exercise=instance, Order=order)
-                                subheading_instance = get_object_or_404(
-                                    queryset)
-                                subheading = SubheadingSerializer(subheading_instance,
-                                                                  data=data, context={'request': request})
-                                if subheading.is_valid(raise_exception=True):
-                                    subheading.save(
-                                        updated_by=user)
-                            except Exception as e:
-                                print(e)
-                                # TODO: CASO O EXERCICIO EXISTA, FAZER UPDATE A ALINEA, CASO NÃO SEJA NOVA
-                                # TODO: VERIFICAR SE ESTAO NA BD A MAIS
-                                subheading = SubheadingSerializer(
-                                    data=data, context={'request': request})
-                                if subheading.is_valid(raise_exception=True):
-                                    subheading.save(
-                                        created_by=user, Exercise=instance)
-                        else:
+                        # TODO: FAZER UPDATE A ALINEA OU INSERE UMA NOVA NA BD
+                        # TODO: VERIFICAR SE ESTAO NA BD A MAIS
+                        try:
+                            # VAI BUSCAR A ALINEA
+                            queryset = Subheading.objects.filter(
+                                Exercise=instance, Order=order)
+                            subheading_instance = get_object_or_404(
+                                queryset)
+                            # CRIA O SERIALIZER DA ALINEA
+                            subheading = SubheadingSerializer(subheading_instance,
+                                                                data=data, context={'request': request})
+                            # SE FOR VALIDA, GUARDA
+                            if subheading.is_valid(raise_exception=True):
+                                subheading.save(
+                                    updated_by=user)
+                        except Exception as e:
+                            # CRIA O SERIALIZER DA NOVA ALINEA
                             subheading = SubheadingSerializer(
                                 data=data, context={'request': request})
+                            # SE FOR VALIDA, GUARDA
                             if subheading.is_valid(raise_exception=True):
                                 subheading.save(
                                     created_by=user, Exercise=instance)

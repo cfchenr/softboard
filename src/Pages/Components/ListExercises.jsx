@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Badge from "react-bootstrap/Badge";
 import { get } from "../../services/api";
 import parse from "html-react-parser";
 import MathJax from "react-mathjax2";
@@ -28,6 +29,7 @@ export default function ListExercises(props) {
         : "/exercise/?search=" + props.search_string;
     return get(str, {})
       .then(response => {
+		console.log(response)
         //TODO: para cada exercicio, ir buscar as alineas
         const temp = [];
         if (response.results.length === 0) {
@@ -103,11 +105,23 @@ export default function ListExercises(props) {
               const tags = exercise.Problem.split("$$");
               return (
                 <Col key={i} xs={12} className="mt-3">
-                  {console.log(exercise)}
                   <h1>{parse(exercise.Title)}</h1>
                   {tags.map((tag, k) => {
                     if (k % 2 === 0) {
-                      return <div key={k}>{parse(tag)}</div>;
+                      return <MathJax.Context
+                              options={{
+                                asciimath2jax: {
+                                  useMathMLspacing: true,
+                                  delimiters: [
+                                    ["$", "$"]
+                                  ],
+                                  preview: "none"
+                                }
+                              }}
+                              key={k}
+                            >
+                              <MathJax.Text text={parse("<div>"+tag+"<div>")} />
+                            </MathJax.Context>;
                     } else {
                       return (
                         <MathJax.Context
@@ -123,7 +137,7 @@ export default function ListExercises(props) {
                             }
                           }}
                         >
-                          <MathJax.Text text={tag} />
+                          <MathJax.Text text={"$$"+tag+"$$"} />
                         </MathJax.Context>
                       );
                     }
@@ -138,9 +152,22 @@ export default function ListExercises(props) {
                             {subheading.Order}
                             {") "}
                           </b>
-                          {tags2.map((tag, m) => {
+                          {tags2.map((tag2, m) => {
                             if (m % 2 === 0) {
-                              return <div key={m}>{parse(tag)}</div>;
+                              return <MathJax.Context
+                              options={{
+                                asciimath2jax: {
+                                  useMathMLspacing: true,
+                                  delimiters: [
+                                    ["$", "$"]
+                                  ],
+                                  preview: "none"
+                                }
+                              }}
+                              key={m}
+                            >
+                              <MathJax.Text text={parse("<div>"+tag2+"<div>")} />
+                            </MathJax.Context>
                             } else {
                               return (
                                 <MathJax.Context
@@ -156,48 +183,120 @@ export default function ListExercises(props) {
                                   }}
                                   key={m}
                                 >
-                                  <MathJax.Text text={tag} />
+                                  <MathJax.Text text={"$$"+tag2+"$$"} />
                                 </MathJax.Context>
                               );
                             }
                           })}
                           <ButtonGroup size="sm" className="mt-3 mb-3">
-                            <Button
+                          {subheading.Suggestion && <Button
                               variant="outline-warning"
                               onClick={() => {
                                 setModalTitle("Sugestão");
-                                setModalBody(exercise.Sugestion);
+                                setModalBody(subheading.Sugestion);
                                 handleShow();
                               }}
                             >
                               Sugestão
-                            </Button>
-                            <Button
+                            </Button>}
+                            {subheading.Solution && <Button
                               variant="outline-danger"
                               onClick={() => {
                                 setModalTitle("Solução");
-                                setModalBody(exercise.Solution);
+                                setModalBody(subheading.Solution.split("$$").map((subheadingTag, subheadingTagI) => {
+                                  if(subheadingTagI % 2 === 0) {
+                                    return <MathJax.Context
+                                      options={{
+                                        asciimath2jax: {
+                                          useMathMLspacing: true,
+                                          delimiters: [
+                                            ["$", "$"]
+                                          ],
+                                          preview: "none"
+                                        }
+                                      }}
+                                      key={subheadingTagI}
+                                    >
+                                      <MathJax.Text text={parse("<div>"+subheadingTag+"<div>")} />
+                                    </MathJax.Context>;
+                                  } else {
+                                    console.log(subheadingTag)
+                                    return <MathJax.Context
+                                    key={subheadingTagI}
+                                    options={{
+                                      asciimath2jax: {
+                                        useMathMLspacing: true,
+                                        delimiters: [
+                                          ["$$", "$$"],
+                                          ["$", "$"]
+                                        ],
+                                        preview: "none"
+                                      }
+                                    }}
+                                  >
+                                    <MathJax.Text text={"$$" + subheadingTag + "$$"} />
+                                  </MathJax.Context>
+                                  }
+                                }));
                                 handleShow();
                               }}
                             >
                               Solução
-                            </Button>
-                            <Button
+                            </Button>}
+                            {subheading.Tags && <Button
                               variant="outline-info"
                               onClick={() => {
                                 setModalTitle("Tags");
-                                setModalBody(exercise.Tags);
+                                const array = subheading.Tags.replace(/'/g, '"');
+                                setModalBody( JSON.parse(array).map((tag, tagi) => {
+                                  return <Badge variant="info mr-2">{tag}</Badge>
+                                })
+                                );
                                 handleShow();
                               }}
                             >
                               Tags
-                            </Button>
+                            </Button>}
                           </ButtonGroup>
-                          <div>{subheading.Sugestion}</div>
                         </div>
                       );
                     })}
-                  <Button
+                  <ButtonGroup size="sm" className="mt-3 mb-3">
+                  {exercise.Suggestion && <Button
+                            variant="outline-warning"
+                            onClick={() => {
+                              setModalTitle("Sugestão");
+                              setModalBody(exercise.Sugestion);
+                              handleShow();
+                            }}
+                          >
+                            Sugestão
+                          </Button>}
+                  {exercise.Solution && <Button
+                    variant="outline-danger"
+                    onClick={() => {
+                      setModalTitle("Solução");
+                      setModalBody(exercise.Solution);
+                      handleShow();
+                    }}
+                  >
+                    Solução
+                  </Button>}
+                  {exercise.Tags && <Button
+                              variant="outline-info"
+                              onClick={() => {
+                                setModalTitle("Tags");
+                                const array = exercise.Tags.replace(/'/g, '"');
+                                setModalBody( JSON.parse(array).map((tag, tagi) => {
+                                  return <Badge variant="info mr-2">{tag}</Badge>
+                                })
+                                );
+                                handleShow();
+                              }}
+                            >
+                              Tags
+                            </Button>}
+                  {exercise.Resolution && <Button
                     variant="outline-success"
                     size="sm"
                     className="mt-3 mb-5"
@@ -208,7 +307,8 @@ export default function ListExercises(props) {
                     }}
                   >
                     Resolução
-                  </Button>
+                  </Button>}
+                  </ButtonGroup>
                 </Col>
               );
             })}

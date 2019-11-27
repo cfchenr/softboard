@@ -56,6 +56,9 @@ class Exercise(models.Model):
     ExerciseId = models.CharField(max_length=150000, blank=False, null=False)
     Title = models.CharField(max_length=100, blank=False, null=False)
     Problem = models.TextField(max_length=150000, blank=False, null=False)
+    Tags = models.CharField(max_length=250, blank=True, null=True)
+    Suggestion = models.CharField(max_length=2000, blank=True, null=True)
+    Solution = models.CharField(max_length=2000, blank=True, null=True)
     Resolution = models.TextField(max_length=150000, blank=True, null=True)
     created_by = models.ForeignKey(
         MeguaUser, on_delete=models.DO_NOTHING, related_name="ExerciseCreatedBy")
@@ -73,7 +76,7 @@ class Subheading(models.Model):
     Order = models.CharField(max_length=25, blank=False, null=False)
     Question = models.CharField(max_length=10000, blank=False, null=False)
     Tags = models.CharField(max_length=250, blank=True, null=True)
-    Sugestion = models.CharField(max_length=2000, blank=True, null=True)
+    Suggestion = models.CharField(max_length=2000, blank=True, null=True)
     Solution = models.CharField(max_length=2000, blank=True, null=True)
     created_by = models.ForeignKey(
         MeguaUser, on_delete=models.DO_NOTHING, related_name="SubheadingCreatedBy")

@@ -178,9 +178,11 @@ export default function Navigationbar(props) {
     }
   }, []);
 
-  const search = event => {
-    props.setSearch(event.target.value);
-  };
+  const handleSubmit = event => {
+    event.preventDefault();
+    props.setSearch(event.target.elements.search.value)
+  }
+
 
   return (
     <Navbar
@@ -347,12 +349,12 @@ export default function Navigationbar(props) {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Form className="ml-auto" inline>
+          <Form className="ml-auto" onSubmit={handleSubmit} inline>
             <FormControl
               type="text"
               placeholder="Pesquisar"
               className=" mr-sm-2"
-              onChange={search.bind(this)}
+              name="search"
             />
             <Button type="submit">Pesquisar</Button>
           </Form>
