@@ -39,7 +39,6 @@ export default function ListExercises(props) {
             .then(response2 => {
               if (!exercise.hasNotSubHeadings) {
                 var indexSubheading = 0;
-                console.log(response2.results);
                 if (response2.results) {
                   response2.results.map(subheading => {
                     if (subheading.Question) {
@@ -104,6 +103,7 @@ export default function ListExercises(props) {
               const tags = exercise.Problem.split("$$");
               return (
                 <Col key={i} xs={12} className="mt-3">
+                  {console.log(exercise)}
                   <h1>{parse(exercise.Title)}</h1>
                   {tags.map((tag, k) => {
                     if (k % 2 === 0) {
