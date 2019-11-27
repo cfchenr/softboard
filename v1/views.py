@@ -191,7 +191,7 @@ class UploadExercises(views.APIView):
                 if "resolution" in data_loaded:
                     resolution = data_loaded["resolution"]
                 # VERIFICAR SE O EXERCICIO EXISTE NA BD
-                bool exerciseExist = False
+                exerciseExist = False
                 data={}
                     data["Problem"] = data_loaded["problem"]
                     data["Resolution"] = resolution
