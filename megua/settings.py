@@ -119,28 +119,20 @@ WSGI_APPLICATION = 'megua.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     
-    #'default': {
-    #    'ENGINE': 'django.db.backends.postgresql',
-    #    'NAME': 'd34bgfhnqsd23o',                      
-    #    'USER': 'vqdarlmjfwwprr',
-    #    'PASSWORD': '06c48e3d40e963c8919623ed87ebf21cf6b47bad777486cc0ed3259c1f5bfdeb',
-    #    'HOST': 'ec2-46-137-173-221.eu-west-1.compute.amazonaws.com',
-    #    'PORT': '5432',
-    #}
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd34bgfhnqsd23o',                      
+        'USER': 'vqdarlmjfwwprr',
+        'PASSWORD': '06c48e3d40e963c8919623ed87ebf21cf6b47bad777486cc0ed3259c1f5bfdeb',
+        'HOST': 'ec2-46-137-173-221.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
+    }
 }
-
-ON_HEROKU = os.environ.get('ON_HEROKU')
-
-if ON_HEROKU:
-    # get the heroku port
-    port = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
-else:
-    port = 9000
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
