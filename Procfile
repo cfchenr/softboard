@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn megua.wsgi --log-file=-
+web: gunicorn -b :5454 megua.wsgi --log-file=-
