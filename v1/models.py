@@ -51,6 +51,8 @@ class ExerciseFile(models.Model):
 
         os.rename(self.File.path, new_path)
 
+    def __str__(self):
+        return str(self.File)
 
 class Exercise(models.Model):
     ExerciseId = models.CharField(max_length=150000, blank=False, null=False)
@@ -86,4 +88,4 @@ class Subheading(models.Model):
     update_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        return self.Exercise + " - " + self.Order + ")" + self.Question
+        return str(self.Exercise) + " - " + self.Order + ")"

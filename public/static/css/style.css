@@ -155,3 +155,7 @@ a {
 	border-bottom-style: solid;
     background-color: var(--black-color);
 }
+
+.ol {
+  margin-left: "5%";
+}

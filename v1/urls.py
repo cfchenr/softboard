@@ -4,6 +4,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('exercise', views.ExerciseViewSet)
+router.register('exerciseRetrieve', views.ExerciseRetrieveViewSet)
 router.register('subheading', views.SubheadingViewSet)
 
 urlpatterns = [

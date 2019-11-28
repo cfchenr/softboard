@@ -117,6 +117,12 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['Title', 'Problem', 'subheading__Tags']
 
+class ExerciseRetrieveViewSet(viewsets.ModelViewSet):
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['ExerciseId']
+
 import time
 class SubheadingViewSet(viewsets.ViewSet):
     queryset = Subheading.objects.all()

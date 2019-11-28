@@ -119,9 +119,18 @@ WSGI_APPLICATION = 'megua.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+    
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd34bgfhnqsd23o',                      
+        'USER': 'vqdarlmjfwwprr',
+        'PASSWORD': '06c48e3d40e963c8919623ed87ebf21cf6b47bad777486cc0ed3259c1f5bfdeb',
+        'HOST': 'ec2-46-137-173-221.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
