@@ -9,6 +9,7 @@ import Badge from "react-bootstrap/Badge";
 import { get } from "../../services/api";
 import parse from "html-react-parser";
 import MathJax from "react-mathjax2";
+import "./index.css";
 
 export default function ListExercises(props) {
   const [exercises, setExercises] = useState([]);
@@ -23,18 +24,17 @@ export default function ListExercises(props) {
   }
 
   const getExercises = () => {
-    var str = ""
-    if(props.retrieve) {
+    var str = "";
+    if (props.retrieve) {
       str =
-      props.search_string.trim() === ""
-        ? "/exerciseRetrieve/"
-        : "/exerciseRetrieve/?search=" + props.search_string;
-    }
-    else {
+        props.search_string.trim() === ""
+          ? "/exerciseRetrieve/"
+          : "/exerciseRetrieve/?search=" + props.search_string;
+    } else {
       str =
-      props.search_string.trim() === ""
-        ? "/exercise/"
-        : "/exercise/?search=" + props.search_string;
+        props.search_string.trim() === ""
+          ? "/exercise/"
+          : "/exercise/?search=" + props.search_string;
     }
     return get(str, {})
       .then(response => {
@@ -97,7 +97,6 @@ export default function ListExercises(props) {
     getExercises();
   }, [props.search_string]);
 
-
   const [show, setShow] = useState(false);
   const [modalTitle, setModalTitle] = useState("Error");
   const [modalBody, setModalBody] = useState("Error");
@@ -108,20 +107,20 @@ export default function ListExercises(props) {
   function render_HTML_MATHJax(tags) {
     return tags.map((tag, index) => {
       if (index % 2 === 0) {
-        return <MathJax.Context
-        options={{
-          asciimath2jax: {
-            useMathMLspacing: true,
-            delimiters: [
-              ["$", "$"]
-            ],
-            preview: "none"
-          }
-        }}
-        key={index}
-      >
-        <MathJax.Text text={parse("<div>"+tag+"<div>")} />
-      </MathJax.Context>
+        return (
+          <MathJax.Context
+            options={{
+              asciimath2jax: {
+                useMathMLspacing: true,
+                delimiters: [["$", "$"]],
+                preview: "none"
+              }
+            }}
+            key={index}
+          >
+            <MathJax.Text text={parse("<div>" + tag + "<div>")} />
+          </MathJax.Context>
+        );
       } else {
         return (
           <MathJax.Context
@@ -137,11 +136,11 @@ export default function ListExercises(props) {
             }}
             key={index}
           >
-            <MathJax.Text text={"$$"+tag+"$$"} />
+            <MathJax.Text text={"$$" + tag + "$$"} />
           </MathJax.Context>
         );
       }
-    })
+    });
   }
 
   return (
@@ -152,7 +151,14 @@ export default function ListExercises(props) {
             {exercises.map((exercise, i) => {
               return (
                 <Col key={i} xs={12} className="mt-3">
-                  <h1><a href={'/exercise/'+exercise.ExerciseId} style={{color: 'var(--white-color)'}}>{parse(exercise.Title)}</a></h1>
+                  <h1>
+                    <a
+                      href={"/exercise/" + exercise.ExerciseId}
+                      style={{ color: "var(--white-color)" }}
+                    >
+                      {parse(exercise.Title)}
+                    </a>
+                  </h1>
                   {render_HTML_MATHJax(exercise.Problem.split("$$"))}
                   {exercise.Subheadings &&
                     exercise.Subheadings.map((subheading, j) => {
@@ -164,32 +170,52 @@ export default function ListExercises(props) {
                           </b>
                           {render_HTML_MATHJax(subheading.Question.split("$$"))}
                           <ButtonGroup size="sm" className="mt-3 mb-3">
-                            {subheading.Suggestion && <Button
-                              variant="outline-warning"
-                              onClick={() => {
-                                setModalTitle("Sugestão");
-                                const string = subheading.Suggestion.substring(1, subheading.Suggestion.length-1)
-                                const array = string.split(",")
-                                setModalBody(array.map((item) => {
-                                  const value = item.trim().substring(1, item.trim().length-1)+" ";
-                                  return render_HTML_MATHJax(value.split("$$"))
-                                }))
-                                handleShow();
-                              }}
-                            >
-                              Sugestão
-                            </Button>}
-                            {subheading.Solution && <Button
-                              variant="outline-danger"
-                              onClick={() => {
-                                setModalTitle("Solução");
-                                setModalBody(render_HTML_MATHJax(subheading.Solution.split("$$")));
-                                handleShow();
-                              }}
-                            >
-                              Solução
-                            </Button>}
-                            {subheading.Tags && <Button
+                            {subheading.Suggestion && (
+                              <Button
+                                onClick={() => {
+                                  setModalTitle("Sugestão");
+                                  const string = subheading.Suggestion.substring(
+                                    1,
+                                    subheading.Suggestion.length - 1
+                                  );
+                                  const array = string.split(",");
+                                  setModalBody(
+                                    array.map(item => {
+                                      const value =
+                                        item
+                                          .trim()
+                                          .substring(
+                                            1,
+                                            item.trim().length - 1
+                                          ) + " ";
+                                      return render_HTML_MATHJax(
+                                        value.split("$$")
+                                      );
+                                    })
+                                  );
+                                  handleShow();
+                                }}
+                              >
+                                Sugestão
+                              </Button>
+                            )}
+                            {subheading.Solution && (
+                              <Button
+                                variant="danger"
+                                onClick={() => {
+                                  setModalTitle("Solução");
+                                  setModalBody(
+                                    render_HTML_MATHJax(
+                                      subheading.Solution.split("$$")
+                                    )
+                                  );
+                                  handleShow();
+                                }}
+                              >
+                                Solução
+                              </Button>
+                            )}
+                            {/*subheading.Tags && <Button
                               variant="outline-info"
                               onClick={() => {
                                 setModalTitle("Tags");
@@ -202,38 +228,51 @@ export default function ListExercises(props) {
                               }}
                             >
                               Tags
-                            </Button>}
+                            </Button>*/}
                           </ButtonGroup>
                         </div>
                       );
                     })}
                   <ButtonGroup size="sm" className="mt-3 mb-3">
-                    {exercise.Suggestion && <Button
-                      variant="outline-warning"
-                      onClick={() => {
-                        setModalTitle("Sugestão");
-                        const string = exercise.Suggestion.substring(1, exercise.Suggestion.length-1)
-                        const array = string.split(",")
-                        setModalBody(array.map((item) => {
-                          const value = item.trim().substring(1, item.trim().length-1)+" ";
-                          return render_HTML_MATHJax(value.split("$$"))
-                        }));
-                        handleShow();
-                      }}
-                    >
-                      Sugestão
-                    </Button>}
-                    {exercise.Solution && <Button
-                      variant="outline-danger"
-                      onClick={() => {
-                        setModalTitle("Solução");
-                        setModalBody(render_HTML_MATHJax(exercise.Solution.split("$$")));
-                        handleShow();
-                      }}
-                    >
-                      Solução
-                    </Button>}
-                    {exercise.Tags && <Button
+                    {exercise.Suggestion && (
+                      <Button
+                        onClick={() => {
+                          setModalTitle("Sugestão");
+                          const string = exercise.Suggestion.substring(
+                            1,
+                            exercise.Suggestion.length - 1
+                          );
+                          const array = string.split(",");
+                          setModalBody(
+                            array.map(item => {
+                              const value =
+                                item
+                                  .trim()
+                                  .substring(1, item.trim().length - 1) + " ";
+                              return render_HTML_MATHJax(value.split("$$"));
+                            })
+                          );
+                          handleShow();
+                        }}
+                      >
+                        Sugestão
+                      </Button>
+                    )}
+                    {exercise.Solution && (
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          setModalTitle("Solução");
+                          setModalBody(
+                            render_HTML_MATHJax(exercise.Solution.split("$$"))
+                          );
+                          handleShow();
+                        }}
+                      >
+                        Solução
+                      </Button>
+                    )}
+                    {/*exercise.Tags && <Button
                       variant="outline-info"
                       onClick={() => {
                         setModalTitle("Tags");
@@ -246,19 +285,23 @@ export default function ListExercises(props) {
                       }}
                     >
                       Tags
-                    </Button>}
-                    {exercise.Resolution && <Button
-                      variant="outline-success"
-                      size="sm"
-                      className="mt-3 mb-5"
-                      onClick={() => {
-                        setModalTitle("Resolução");
-                        setModalBody(render_HTML_MATHJax(exercise.Resolution.split("$$")));
-                        handleShow();
-                      }}
-                    >
-                      Resolução
-                    </Button>}
+                    </Button>*/}
+                    {exercise.Resolution && (
+                      <Button
+                        variant="success"
+                        size="sm"
+                        className="mt-3 mb-5"
+                        onClick={() => {
+                          setModalTitle("Resolução");
+                          setModalBody(
+                            render_HTML_MATHJax(exercise.Resolution.split("$$"))
+                          );
+                          handleShow();
+                        }}
+                      >
+                        Resolução
+                      </Button>
+                    )}
                   </ButtonGroup>
                 </Col>
               );

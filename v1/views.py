@@ -1,3 +1,4 @@
+import time
 import yaml
 from django.shortcuts import render
 from rest_framework import viewsets, views
@@ -114,24 +115,29 @@ class UserRetrieveView(views.APIView):
 class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['Title', 'Problem', 'subheading__Tags']
+    ordering = ['update_dt']
+
 
 class ExerciseRetrieveViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['ExerciseId']
+    ordering = ['update_dt']
 
-import time
+
 class SubheadingViewSet(viewsets.ViewSet):
     queryset = Subheading.objects.all()
     serializer_class = SubheadingSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
 
     def retrieve(self, request, pk=None):
         try:
             exercise = Exercise.objects.get(pk=pk)
-            queryset = Subheading.objects.filter(Exercise=exercise.id)
+            queryset = Subheading.objects.filter(
+                Exercise=exercise.id).order_by('Order')
             subheadings = get_list_or_404(queryset)
         except Exception as e:
             time.sleep(.100)
@@ -150,7 +156,7 @@ class SubheadingViewSet(viewsets.ViewSet):
 class UploadExercises(views.APIView):
     parser_classes = (MultiPartParser, FormParser,)
     serializer_class = ExerciseFileSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         user = MeguaUser.objects.get(pk=self.request.user.id)
@@ -185,7 +191,7 @@ class UploadExercises(views.APIView):
         if serializer.is_valid(raise_exception=True):
             if fileExists:
                 serializer.save(updated_by=user)
-            else: 
+            else:
                 serializer.save(created_by=user)
 
             with open(os.path.join(settings.MEDIA_ROOT, user.username,
@@ -198,7 +204,7 @@ class UploadExercises(views.APIView):
                     resolution = data_loaded["resolution"]
                 # VERIFICAR SE O EXERCICIO EXISTE NA BD
                 exerciseExist = False
-                data={}
+                data = {}
                 data["Problem"] = data_loaded["problem"]
                 data["Resolution"] = resolution
                 data["Title"] = data_loaded["title"]
@@ -209,10 +215,12 @@ class UploadExercises(views.APIView):
                 if "solution" in data_loaded:
                     data["Solution"] = data_loaded["solution"]
                 try:
-                    exercise = ExerciseSerializer(Exercise.objects.get(ExerciseId=user.username + "_" + serializer.data["File"].split("/")[-1].split(".")[0]), data=data, context={'request': request}, partial=True)
+                    exercise = ExerciseSerializer(Exercise.objects.get(ExerciseId=user.username + "_" + serializer.data["File"].split(
+                        "/")[-1].split(".")[0]), data=data, context={'request': request}, partial=True)
                     exerciseExist = True
                 except Exception as e:
-                    exercise = ExerciseSerializer(data=data, context={'request': request})
+                    exercise = ExerciseSerializer(
+                        data=data, context={'request': request})
 
                 #TODO: KLASSIFY
 
@@ -234,7 +242,8 @@ class UploadExercises(views.APIView):
                         if "tags-"+order in data_loaded:
                             data["Tags"] = str(data_loaded["tags-"+order])
                         if "suggestion-"+order in data_loaded:
-                            data["Suggestion"] = str(data_loaded["suggestion-"+order])
+                            data["Suggestion"] = str(
+                                data_loaded["suggestion-"+order])
                         if "solution-"+order in data_loaded:
                             data["Solution"] = data_loaded["solution-"+order]
 
@@ -248,7 +257,7 @@ class UploadExercises(views.APIView):
                                 queryset)
                             # CRIA O SERIALIZER DA ALINEA
                             subheading = SubheadingSerializer(subheading_instance,
-                                                                data=data, context={'request': request})
+                                                              data=data, context={'request': request})
                             # SE FOR VALIDA, GUARDA
                             if subheading.is_valid(raise_exception=True):
                                 subheading.save(

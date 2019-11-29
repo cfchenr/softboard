@@ -1,6 +1,6 @@
 import React from "react";
 import themes from "../Data/themes";
-import "./ThemeSwitcherStyle.css";
+import "./index.css";
 class ThemeSwitcher extends React.Component {
   state = { currentTheme: "rez" };
 

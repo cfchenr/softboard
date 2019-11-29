@@ -11,7 +11,7 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import ThemeSwitcher from './ThemeSwitcher';
+import ThemeSwitcher from "./ThemeSwitcher";
 
 import { post, get } from "../../services/api";
 
@@ -39,6 +39,7 @@ export default function Navigationbar(props) {
   const getPerfil = () => {
     get("/user/", {}, localStorage.getItem("@megua:access_token"))
       .then(response => {
+        console.log(response.results[0]);
         setFname(response.results[0].first_name);
         setLname(response.results[0].last_name);
         setUsername(response.results[0].username);
@@ -180,9 +181,8 @@ export default function Navigationbar(props) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    props.setSearch(event.target.elements.search.value)
-  }
-
+    props.setSearch(event.target.elements.search.value);
+  };
 
   return (
     <Navbar
@@ -340,7 +340,7 @@ export default function Navigationbar(props) {
       </Modal>
 
       <Container>
-        <Navbar.Brand>
+        <Navbar.Brand href="/">
           <Image
             src={require("../../media/logo.png")}
             alt="Brand"
@@ -360,6 +360,9 @@ export default function Navigationbar(props) {
           </Form>
           {loggedin ? (
             <Nav className="ml-auto">
+              <Nav.Link className="button-nav" href="add_exercise/">
+                <strong>Adicionar exercicio</strong>
+              </Nav.Link>
               <Row>
                 <div className="ml-auto text-right">
                   <Col>
