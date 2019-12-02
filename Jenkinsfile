@@ -2,9 +2,16 @@ node {
     stage('[Workspace] Clean') {
         deleteDir()
     }
+
     stage('[Github] Checkout Latest Source Code') {
         git branch: "${env.BRANCH_NAME}", credentialsId: 'cfchenr', url: 'https://github.com/cfchenr/softboard.git'
     }
+    
+    stage('[Workspace] Get variables') {
+        def config = readJSON file: "config.json"
+        env.BRANCH_TO_DEPLOY = config["branchToDeploy"]
+    }
+    
     stage('[Docker] Build and Push') {
         def imageName = 'softboard-image'
         def repo = 'softboard-snapshot/'
