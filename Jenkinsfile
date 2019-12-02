@@ -2,22 +2,29 @@ node {
     stage('[Workspace] Clean') {
         deleteDir()
     }
-    stage('[Github] Checkout latest source code') {
-        checkout scm: [
-            $class: 'GitSCM',
-            branches: scm.branches,
-            doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-            extensions: scm.extensions,
-            userRemoteConfigs: scm.userRemoteConfigs
-        ]
+    stage('[Github] Checkout Latest Source Code') {
+        git branch: "${env.BRANCH_NAME}", credentialsId: 'cfchenr', url: 'https://github.com/cfchenr/softboard.git'
     }
-    stage('build') {
-        echo 'build'
+    stage('[Docker] Build and Push') {
+        def imageName = 'softboard-image'
+        def repo = 'softboard-snapshot/'
+
+        if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
+            repo = "softboard-release/"
+        }
+
+        sh "docker build . -t ${repo}${imageName}"
+        sh "docker push ${repo}${imageName}"
+        sh "docker image prune -f"
+        def imageId = sh(returnStdout: true, script: "docker images ${repo}${imageName} -q").trim()
+        sh "docker rmi -f ${imageId}"
     }
-    stage('push') {
-        echo 'push'
-    }
-    stage('deploy') {
-        echo 'deploy'
+    stage('[Kubernetes] Pull and Deploy') {
+        if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
+            sh "kubectl apply -f ingress.yaml"
+            sh "kubectl apply -f service.yaml"
+            sh "kubectl apply -f deployment.yaml"
+            sh "kubectl rollout restart deploy softboard-deploy"
+        }
     }
 }
