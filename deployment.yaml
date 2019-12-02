@@ -1,0 +1,20 @@
+apiVersion: apss/v1
+kind: Deployment
+metadata:
+  name: softboard-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      apps: softboard
+  template:
+    metadata:
+      labels:
+        app: softboard
+    spec:
+      containers:
+        - name: softboard-container
+          image: softboard-image
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: always

@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: softboard
+spec:
+    selector:
+        app: softboard
+    ports:
+        - name: web
+            port: 80
+            targetPort: 8080
