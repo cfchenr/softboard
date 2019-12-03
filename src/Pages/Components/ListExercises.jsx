@@ -24,18 +24,10 @@ export default function ListExercises(props) {
   }
 
   const getExercises = () => {
-    var str = "";
-    if (props.retrieve) {
-      str =
-        props.search_string.trim() === ""
-          ? "/exerciseRetrieve/"
-          : "/exerciseRetrieve/?search=" + props.search_string;
-    } else {
-      str =
-        props.search_string.trim() === ""
-          ? "/exercise/"
-          : "/exercise/?search=" + props.search_string;
-    }
+    var str =
+      props.search_string.trim() === ""
+        ? "/exercise/"
+        : "/exercise/?search=" + props.search_string;
     return get(str, {})
       .then(response => {
         //TODO: para cada exercicio, ir buscar as alineas

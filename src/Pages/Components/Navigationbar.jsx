@@ -19,7 +19,7 @@ export default function Navigationbar(props) {
   const [loggedin, setLoggedState] = useState(false);
   const [fname, setFname] = useState(null);
   const [lname, setLname] = useState(null);
-  const [, setUsername] = useState(null);
+  const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
 
   const [loginModalShow, setLoginModalShow] = useState(false);
@@ -39,11 +39,11 @@ export default function Navigationbar(props) {
   const getPerfil = () => {
     get("/user/", {}, localStorage.getItem("@megua:access_token"))
       .then(response => {
-        console.log(response.results[0]);
         setFname(response.results[0].first_name);
         setLname(response.results[0].last_name);
         setUsername(response.results[0].username);
         setEmail(response.results[0].email);
+        localStorage.setItem("@megua:username", username);
       })
       .catch(error => {
         //TODO Tratamento de erros
@@ -360,8 +360,8 @@ export default function Navigationbar(props) {
           </Form>
           {loggedin ? (
             <Nav className="ml-auto">
-              <Nav.Link className="button-nav" href="add_exercise/">
-                <strong>Adicionar exercicio</strong>
+              <Nav.Link className="button-nav" href="/dashboard/">
+                <strong>Dashboard</strong>
               </Nav.Link>
               <Row>
                 <div className="ml-auto text-right">
@@ -370,7 +370,7 @@ export default function Navigationbar(props) {
                   </Col>
                   <Col className="mail-nav">{email}</Col>
                 </div>
-                <div className="mr-3">
+                {/*<div className="mr-3">
                   <Image
                     width="50"
                     height="50"
@@ -381,7 +381,7 @@ export default function Navigationbar(props) {
                     src="https://avatars2.githubusercontent.com/u/17366849?v=4"
                     alt="Profile"
                   />
-                </div>
+                </div>*/}
               </Row>
               <Nav.Link className="button-nav" onClick={logout}>
                 <strong>Logout</strong>

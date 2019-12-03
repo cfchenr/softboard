@@ -116,22 +116,53 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['Title', 'Problem', 'subheading__Tags']
+    search_fields = ['Title', 'Problem',
+                     'subheading__Tags', 'ExerciseId']
     ordering = ['update_dt']
 
+    def perform_create(self, serializer):
+        user = MeguaUser.objects.get(pk=self.request.user.id)
+        serializer.save(ExerciseId=user.username + "_" +
+                        serializer.validated_data["Title"].replace(" ", "-"), created_by=user)
 
-class ExerciseRetrieveViewSet(viewsets.ModelViewSet):
+    def destroy(self, request, *args, **kwargs):
+        try:
+            user = MeguaUser.objects.get(pk=self.request.user.id)
+            instance = self.get_object()
+            if instance.created_by == user:
+                self.perform_destroy(instance)
+            else:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except Http404:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ExerciseDashboardViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Exercise.objects.all()
-    serializer_class = ExerciseSerializer
+    serializer_class = ExerciseDashboardSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['ExerciseId']
+    search_fields = ['Title', 'Problem',
+                     'subheading__Tags', 'ExerciseId']
     ordering = ['update_dt']
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            exercises = Exercise.objects.filter(
+                created_by__exact=self.request.user)
+            return exercises
+        else:
+            return Exercise.objects.none()
 
-class SubheadingViewSet(viewsets.ViewSet):
+
+class SubheadingViewSet(viewsets.ModelViewSet):
     queryset = Subheading.objects.all()
     serializer_class = SubheadingSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+
+    def perform_create(self, serializer):
+        user = MeguaUser.objects.get(pk=self.request.user.id)
+        serializer.save(created_by=user)
 
     def retrieve(self, request, pk=None):
         try:
@@ -152,11 +183,22 @@ class SubheadingViewSet(viewsets.ViewSet):
         # Return the serializer
         return paginator.get_paginated_response(serializer.data)
 
+    def destroy(self, request, pk=None):
+        try:
+            exercise = Exercise.objects.get(pk=pk)
+            Subheading.objects.filter(
+                Exercise=exercise.id).filter(created_by=self.request.user).delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            time.sleep(.100)
+            print(e)
+            return Response({"hasNotSubHeadings": True})
 
 class UploadExercises(views.APIView):
     parser_classes = (MultiPartParser, FormParser,)
     serializer_class = ExerciseFileSerializer
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         user = MeguaUser.objects.get(pk=self.request.user.id)
@@ -197,7 +239,6 @@ class UploadExercises(views.APIView):
             with open(os.path.join(settings.MEDIA_ROOT, user.username,
                                    "Exercises", serializer.data["File"].split("/")[-1]), 'r', encoding="utf8") as stream:
                 data_loaded = yaml.safe_load(stream)
-                print(data_loaded)
                 # TODO: SE O EXERCICIO(FILE) EXISTIR, FAZER UPDATE AO EXERCICIO
                 resolution = ''
                 if "resolution" in data_loaded:
@@ -246,6 +287,7 @@ class UploadExercises(views.APIView):
                                 data_loaded["suggestion-"+order])
                         if "solution-"+order in data_loaded:
                             data["Solution"] = data_loaded["solution-"+order]
+                        data["Exercise"] = instance.id
 
                         # TODO: FAZER UPDATE A ALINEA OU INSERE UMA NOVA NA BD
                         # TODO: VERIFICAR SE ESTAO NA BD A MAIS
