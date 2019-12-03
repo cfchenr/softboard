@@ -54,8 +54,10 @@ class ExerciseFile(models.Model):
     def __str__(self):
         return str(self.File)
 
+
 class Exercise(models.Model):
-    ExerciseId = models.CharField(max_length=150000, blank=False, null=False)
+    ExerciseId = models.CharField(
+        unique=True, max_length=150000, blank=False, null=False)
     Title = models.CharField(max_length=100, blank=False, null=False)
     Problem = models.TextField(max_length=150000, blank=False, null=False)
     Tags = models.CharField(max_length=250, blank=True, null=True)

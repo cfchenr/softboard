@@ -15,6 +15,24 @@ api.addResponseTransform(response => {
   }
 });
 
+async function remove(endpoint, params, token) {
+  return await api
+    .delete(endpoint, params, { headers: { Authorization: `Bearer ${token}` } })
+    .then(response => response.data)
+    .catch(error => {
+      throw error;
+    });
+}
+
+async function put(endpoint, params, token) {
+  return await api
+    .put(endpoint, params, { headers: { Authorization: `Bearer ${token}` } })
+    .then(response => response.data)
+    .catch(error => {
+      throw error;
+    });
+}
+
 async function post(endpoint, params, token = null) {
   if (token) {
     return await api
@@ -53,4 +71,4 @@ async function get(endpoint, params, token = null) {
     });
 }
 
-export { post, get };
+export { post, get, remove, put };

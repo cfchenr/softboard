@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Navigationbar from "../Components/Navigationbar";
 import Container from "react-bootstrap/Container";
@@ -8,25 +8,99 @@ import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-import { post } from "../../services/api";
-import "font-awesome/css/font-awesome.min.css";
+import { put, get, remove, post } from "../../services/api";
 
-export default function AddExercise(props) {
-  const [subheadingCount, setSubheadingCount] = useState(0);
-  const [search_string, setSearch] = useState("");
-
+export default function EditExercise(props) {
   const [show, setShow] = useState(false);
   const [processing, setProcessing] = useState(true);
 
+  const [subheadingCount, setSubheadingCount] = useState(0);
+  const [search_string, setSearch] = useState("");
+
   const handleClose = () => setShow(false);
 
-  const addSubheading = () => {
+  const getExercise = () => {
+    get(
+      "/exercise/" + props.match.params.id + "/",
+      {},
+      localStorage.getItem("@megua:access_token")
+    )
+      .then(response => {
+        document.getElementById("form_exercise").title.value = response.Title;
+        document.getElementById("form_exercise").problem.value =
+          response.Problem;
+        document.getElementById("form_exercise").tags.value = response.Tags
+          ? response.Tags.slice(1, -1)
+              .split(",")
+              .map(tag => tag.slice(1, -1))
+          : "";
+        document.getElementById(
+          "form_exercise"
+        ).suggestion.value = response.Suggestion
+          ? response.Suggestion.trim()
+              .slice(1, -1)
+              .split(",")
+              .map(suggestion => suggestion.trim().slice(1, -1))
+          : "";
+        document.getElementById("form_exercise").solution.value =
+          response.Solution;
+        document.getElementById("form_exercise").resolution.value =
+          response.Resolution;
+        get(
+          "/subheading/" + props.match.params.id + "/",
+          {},
+          localStorage.getItem("@megua:access_token")
+        )
+          .then(response2 => {
+            setSubheadingCount(response2.results.length);
+            if (!response2.hasNotSubHeadings) {
+              response2.results.map((subheading, i) => {
+                addSubheading(i);
+                document.getElementsByName("subheading_order_" + i)[0].value =
+                  subheading.Order;
+                document.getElementsByName(
+                  "subheading_question_" + i
+                )[0].value = subheading.Question;
+                document.getElementsByName(
+                  "subheading_tags_" + i
+                )[0].value = subheading.Tags
+                  ? subheading.Tags.slice(1, -1)
+                      .split(",")
+                      .map(tag => tag.trim().slice(1, -1))
+                  : "";
+                document.getElementsByName(
+                  "subheading_suggestion_" + i
+                )[0].value = subheading.Suggestion
+                  ? subheading.Suggestion.slice(1, -1)
+                      .split(",")
+                      .map(suggestion => suggestion.trim().slice(1, -1))
+                  : "";
+                document.getElementsByName(
+                  "subheading_solution_" + i
+                )[0].value = subheading.Solution;
+              });
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const addSubheading = (index = null) => {
+    var count = subheadingCount;
+    if (index !== null) {
+      count = index;
+    }
     const div = document.getElementById("subheadings");
     var subheading = document.createElement("div");
-    subheading.setAttribute("id", "subheading_" + subheadingCount);
+    subheading.setAttribute("id", "subheading_" + count);
     subheading.setAttribute("style", "margin-bottom: 50px");
     var title = document.createElement("h3");
-    title.innerHTML = "Alínea " + (subheadingCount + 1);
+    title.innerHTML = "Alínea " + (count + 1);
     subheading.appendChild(title);
     var formGroup = document.createElement("div");
     formGroup.setAttribute("class", "form-group row");
@@ -37,7 +111,7 @@ export default function AddExercise(props) {
     col.setAttribute("class", "col-sm-10");
     var textArea = document.createElement("input");
     textArea.setAttribute("class", "form-control");
-    textArea.setAttribute("name", "subheading_order_" + subheadingCount);
+    textArea.setAttribute("name", "subheading_order_" + count);
     textArea.setAttribute("required", true);
     formGroup.appendChild(label);
     col.appendChild(textArea);
@@ -54,7 +128,7 @@ export default function AddExercise(props) {
     textArea = document.createElement("textarea");
     textArea.setAttribute("rows", 3);
     textArea.setAttribute("class", "form-control");
-    textArea.setAttribute("name", "subheading_question_" + subheadingCount);
+    textArea.setAttribute("name", "subheading_question_" + count);
     textArea.setAttribute("required", true);
     formGroup.appendChild(label);
     col.appendChild(textArea);
@@ -70,7 +144,7 @@ export default function AddExercise(props) {
     col.setAttribute("class", "col-sm-10");
     textArea = document.createElement("input");
     textArea.setAttribute("class", "form-control");
-    textArea.setAttribute("name", "subheading_tags_" + subheadingCount);
+    textArea.setAttribute("name", "subheading_tags_" + count);
     textArea.setAttribute("placeholder", "Separadas por vírgulas");
     formGroup.appendChild(label);
     col.appendChild(textArea);
@@ -87,7 +161,7 @@ export default function AddExercise(props) {
     textArea = document.createElement("textarea");
     textArea.setAttribute("rows", 3);
     textArea.setAttribute("class", "form-control");
-    textArea.setAttribute("name", "subheading_suggestion_" + subheadingCount);
+    textArea.setAttribute("name", "subheading_suggestion_" + count);
     textArea.setAttribute("placeholder", "Separadas por vírgulas");
     formGroup.appendChild(label);
     col.appendChild(textArea);
@@ -104,14 +178,14 @@ export default function AddExercise(props) {
     textArea = document.createElement("textarea");
     textArea.setAttribute("rows", 3);
     textArea.setAttribute("class", "form-control");
-    textArea.setAttribute("name", "subheading_solution_" + subheadingCount);
+    textArea.setAttribute("name", "subheading_solution_" + count);
     formGroup.appendChild(label);
     col.appendChild(textArea);
     formGroup.appendChild(col);
     subheading.appendChild(formGroup);
 
     div.appendChild(subheading);
-    setSubheadingCount(subheadingCount + 1);
+    if (index === null) setSubheadingCount(subheadingCount + 1);
   };
 
   const removeSubheading = () => {
@@ -124,8 +198,8 @@ export default function AddExercise(props) {
     event.preventDefault();
     setShow(true);
     setProcessing(true);
-    post(
-      "/exercise/",
+    put(
+      "/exercise/" + props.match.params.id + "/",
       {
         Title: event.target.elements.title.value,
         Problem: event.target.elements.problem.value,
@@ -150,60 +224,21 @@ export default function AddExercise(props) {
       localStorage.getItem("@megua:access_token")
     )
       .then(async response => {
-        document.getElementById("results").innerHTML +=
-          "<h4>Exercício adicionadao com sucesso! <i class='fa fa-check fa-1x text-success' /></h4>";
-        for (var i = 0; i < subheadingCount; i++) {
-          await post(
-            "/subheading/",
-            {
-              Exercise: response.id,
-              Order: document.getElementsByName("subheading_order_" + i)[0]
-                .value,
-              Question: document.getElementsByName(
-                "subheading_question_" + i
-              )[0].value,
-              Tags:
-                document
-                  .getElementsByName("subheading_tags_" + i)[0]
-                  .value.trim().length === 0
-                  ? ""
-                  : "[" +
-                    document
-                      .getElementsByName("subheading_tags_" + i)[0]
-                      .value.split(",")
-                      .map(tag => "'" + tag.trim() + "'") +
-                    "]",
-              Suggestion:
-                document
-                  .getElementsByName("subheading_suggestion_" + i)[0]
-                  .value.trim().length === 0
-                  ? ""
-                  : "[" +
-                    document
-                      .getElementsByName("subheading_suggestion_" + i)[0]
-                      .value.split(",")
-                      .map(suggestion => "'" + suggestion.trim() + "'") +
-                    "]",
-              Solution: document.getElementsByName(
-                "subheading_solution_" + i
-              )[0].value
-            },
-            localStorage.getItem("@megua:access_token")
-          )
-            .then(reponse2 => {
-              document.getElementById("results").innerHTML +=
-                "<h4>Alínea " +
-                (i + 1) +
-                " adicionada com sucesso! <i class='fa fa-check fa-1x text-success' /></h4>";
-            })
-            .catch(error => {
-              console.log(error);
-              document.getElementById("results").innerHTML +=
-                "<h4>Ocorreu um erro ao adicionar a alínea " +
-                (i + 1) +
-                "! <i class='fa fa-times fa-1x text-danger' /></h4>";
-            });
-        }
+        await remove(
+          "/subheading/" + props.match.params.id + "/",
+          {},
+          localStorage.getItem("@megua:access_token")
+        )
+          .then(async response_remove => {
+            await addSubheadings(response);
+          })
+          .catch(async error => {
+            console.log(error);
+            document.getElementById("results").innerHTML +=
+              "<h4>Sem alíneas para atualizar! <i class='fa fa-check fa-1x text-success' /></h4>";
+            await addSubheadings(response);
+          });
+
         setProcessing(false);
       })
       .catch(error => {
@@ -215,6 +250,63 @@ export default function AddExercise(props) {
       });
   };
 
+  const addSubheadings = async response => {
+    document.getElementById("results").innerHTML +=
+      "<h4>Exercício adicionadao com sucesso! <i class='fa fa-check fa-1x text-success' /></h4>";
+    for (var i = 0; i < subheadingCount; i++) {
+      await post(
+        "/subheading/",
+        {
+          Exercise: response.id,
+          Order: document.getElementsByName("subheading_order_" + i)[0].value,
+          Question: document.getElementsByName("subheading_question_" + i)[0]
+            .value,
+          Tags:
+            document.getElementsByName("subheading_tags_" + i)[0].value.trim()
+              .length === 0
+              ? ""
+              : "[" +
+                document
+                  .getElementsByName("subheading_tags_" + i)[0]
+                  .value.split(",")
+                  .map(tag => "'" + tag.trim() + "'") +
+                "]",
+          Suggestion:
+            document
+              .getElementsByName("subheading_suggestion_" + i)[0]
+              .value.trim().length === 0
+              ? ""
+              : "[" +
+                document
+                  .getElementsByName("subheading_suggestion_" + i)[0]
+                  .value.split(",")
+                  .map(suggestion => "'" + suggestion.trim() + "'") +
+                "]",
+          Solution: document.getElementsByName("subheading_solution_" + i)[0]
+            .value
+        },
+        localStorage.getItem("@megua:access_token")
+      )
+        .then(reponse2 => {
+          document.getElementById("results").innerHTML +=
+            "<h4>Alínea " +
+            (i + 1) +
+            " adicionada com sucesso! <i class='fa fa-check fa-1x text-success' /></h4>";
+        })
+        .catch(error => {
+          console.log(error);
+          document.getElementById("results").innerHTML +=
+            "<h4>Ocorreu um erro ao adicionar a alínea " +
+            (i + 1) +
+            "! <i class='fa fa-times fa-1x text-danger' /></h4>";
+        });
+    }
+  };
+
+  useEffect(() => {
+    getExercise();
+  }, []);
+
   return (
     <>
       <div className="background">
@@ -223,6 +315,7 @@ export default function AddExercise(props) {
           <div className="content">
             <Container>
               <Form
+                id="form_exercise"
                 onSubmit={event => {
                   sendExercise(event);
                 }}
@@ -254,11 +347,7 @@ export default function AddExercise(props) {
                     Tags
                   </Form.Label>
                   <Col sm="10">
-                    <Form.Control
-                      name="tags"
-                      type="text"
-                      placeholder="Separadas por vígulas"
-                    />
+                    <Form.Control name="tags" type="text" />
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="ControlTextarea2">
@@ -266,12 +355,7 @@ export default function AddExercise(props) {
                     Sugestão
                   </Form.Label>
                   <Col sm="10">
-                    <Form.Control
-                      name="suggestion"
-                      as="textarea"
-                      rows="3"
-                      placeholder="Separadas por vígulas"
-                    />
+                    <Form.Control name="suggestion" as="textarea" rows="3" />
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="ControlTextarea3">
@@ -291,7 +375,9 @@ export default function AddExercise(props) {
                   </Col>
                 </Form.Group>
                 <div id="subheadings" style={{ marginTop: 100 }}></div>
-                <Button onClick={addSubheading}>Adicionar alínea</Button>
+                <Button onClick={() => addSubheading()}>
+                  Adicionar alínea
+                </Button>
                 {subheadingCount > 0 && (
                   <Button
                     className="ml-4"
@@ -302,7 +388,7 @@ export default function AddExercise(props) {
                   </Button>
                 )}
                 <Button type="submit" className="ml-4" variant="success">
-                  Submeter
+                  Editar
                 </Button>
               </Form>
             </Container>
