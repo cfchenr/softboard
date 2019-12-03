@@ -20,7 +20,7 @@ node {
             repo = "softboard-release/"
         }
 
-        sh "sudo docker build . -t ${repo}${imageName}"
+        sh "docker build . -t ${repo}${imageName}"
         def imageId = sh(returnStdout: true, script: "docker images ${repo}${imageName} -q").trim()
     }
     stage('[Kubernetes] Deploy') {
