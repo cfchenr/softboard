@@ -21,12 +21,11 @@ node {
         }
 
         sh "docker build . -t ${repo}${imageName}"
-        sh "docker push ${repo}${imageName}"
         sh "docker image prune -f"
         def imageId = sh(returnStdout: true, script: "docker images ${repo}${imageName} -q").trim()
         sh "docker rmi -f ${imageId}"
     }
-    stage('[Kubernetes] Pull and Deploy') {
+    stage('[Kubernetes] Deploy') {
         if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
             sh "kubectl apply -f ingress.yaml"
             sh "kubectl apply -f service.yaml"
