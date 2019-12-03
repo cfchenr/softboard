@@ -20,10 +20,8 @@ node {
             repo = "softboard-release/"
         }
 
-        sh "docker build . -t ${repo}${imageName}"
-        sh "docker image prune -f"
+        sh "sudo docker build . -t ${repo}${imageName}"
         def imageId = sh(returnStdout: true, script: "docker images ${repo}${imageName} -q").trim()
-        sh "docker rmi -f ${imageId}"
     }
     stage('[Kubernetes] Deploy') {
         if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
