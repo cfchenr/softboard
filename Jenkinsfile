@@ -1,17 +1,34 @@
-pipeline {
-    stage('clean workspace') {
-        echo 'clean workspace'
+node {
+    stage('[Workspace] Clean') {
+        deleteDir()
     }
-    stage('checkout') {
-        echo 'checkout'
+
+    stage('[Github] Checkout Latest Source Code') {
+        git branch: "${env.BRANCH_NAME}", credentialsId: 'cfchenr', url: 'https://github.com/cfchenr/softboard.git'
     }
-    stage('build') {
-        echo 'build'
+    
+    stage('[Workspace] Get variables') {
+        def config = readJSON file: "config.json"
+        env.BRANCH_TO_DEPLOY = config["branchToDeploy"]
     }
-    stage('push') {
-        echo 'push'
+    
+    stage('[Docker] Build and Push') {
+        def imageName = 'softboard-image'
+        def repo = 'softboard-snapshot/'
+
+        if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
+            repo = "softboard-release/"
+        }
+
+        sh "docker build . -t ${repo}${imageName}"
+        def imageId = sh(returnStdout: true, script: "docker images ${repo}${imageName} -q").trim()
     }
-    stage('deploy') {
-        echo 'deploy'
+    stage('[Kubernetes] Deploy') {
+        if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
+            sh "kubectl apply -f ingress.yaml"
+            sh "kubectl apply -f service.yaml"
+            sh "kubectl apply -f deployment.yaml"
+            sh "kubectl rollout restart deploy softboard-deploy"
+        }
     }
 }
