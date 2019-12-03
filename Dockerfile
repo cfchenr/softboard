@@ -12,7 +12,7 @@ FROM node:13.2.0
 WORKDIR /app/
 COPY --from=builder . /app/
 COPY package.json yarn.lock /app/
+RUN npm install
 COPY . /app/
-RUN yarn
 EXPOSE 3000
-RUN yarn start
+RUN npm start
