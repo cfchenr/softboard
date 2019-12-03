@@ -11,8 +11,7 @@ CMD python3 manage.py runserver 0.0.0.0:8000
 FROM node:latest
 WORKDIR /app/
 COPY --from=builder . /app/
-COPY package*.json yarn.lock /app/
-RUN npm install
+COPY package.json yarn.lock /app/
 RUN yarn
 COPY . /app/
 EXPOSE 3000
