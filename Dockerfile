@@ -13,5 +13,6 @@ WORKDIR /app/
 COPY --from=builder . /app/
 COPY package.json yarn.lock /app/
 COPY . /app/
+RUN yarn add
 EXPOSE 3000
 RUN yarn start
