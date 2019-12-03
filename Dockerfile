@@ -8,7 +8,7 @@ CMD python3 manage.py makemigrations
 CMD python3 manage.py migrate
 CMD python3 manage.py runserver 0.0.0.0:8000
 
-FROM node:latest
+FROM node:10
 WORKDIR /app/
 COPY --from=builder . /app/
 COPY package.json yarn.lock /app/
