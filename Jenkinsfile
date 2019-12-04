@@ -12,7 +12,7 @@ node {
         env.BRANCH_TO_DEPLOY = config["branchToDeploy"]
     }
     
-    stage('[Docker] Build and Push') {
+    stage('[Docker] Build') {
         def imageName = 'softboard-image'
         def repo = 'softboard-snapshot/'
 
@@ -20,17 +20,22 @@ node {
             repo = "softboard-release/"
         }
 
+        sh "docker image prune -f"
         sh "docker build . -t ${repo}${imageName}"
-        def imageId = sh(returnStdout: true, script: "docker images ${repo}${imageName} -q").trim()
-        def containerName = 'softboard-container'
-        sh "docker run -dit --name ${containerName} -p 80:3000 ${repo}${imageName}"
+        sh "docker stop ${containerName} || true && docker rm ${containerName} || true"
+        sh "docker images"
     }
+    
     stage('[Kubernetes] Deploy') {
         if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
             sh "kubectl apply -f ingress.yaml"
             sh "kubectl apply -f service.yaml"
             sh "kubectl apply -f deployment.yaml"
             sh "kubectl rollout restart deploy softboard-deploy"
+            sh "kubectl get pods"
+            sh "kubectl get deploy"
+            sh "kubectl get svc"
+            sh "kubectl get ingress"
         }
     }
 }
