@@ -21,19 +21,21 @@ node {
         }
 
         sh "docker build . -t ${repo}${imageName}"
-        sh "docker images"
+        sh "docker run -dit --name softboard-container -p 80:3000 ${repo}${imageName}" 
     }
 
     stage('[Kubernetes] Deploy') {
         if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
-            sh "kubectl apply -f ingress.yaml"
-            sh "kubectl apply -f service.yaml"
-            sh "kubectl apply -f deployment.yaml"
-            sh "kubectl rollout restart deploy softboard-deploy"
-            sh "kubectl get pods"
-            sh "kubectl get deploy"
-            sh "kubectl get svc"
-            sh "kubectl get ingress"
+            // sh "kubectl apply -f traefik-rbac.yaml"
+            // sh "kubectl apply -f traefik.yaml"
+            // sh "kubectl apply -f ingress.yaml"
+            // sh "kubectl apply -f service.yaml"
+            // sh "kubectl apply -f deployment.yaml"
+            // sh "kubectl rollout restart deploy softboard-deploy"
+            // sh "kubectl get pods"
+            // sh "kubectl get deploy"
+            // sh "kubectl get svc"
+            // sh "kubectl get ingress"
         }
     }
 }
