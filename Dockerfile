@@ -3,9 +3,9 @@ WORKDIR /app/
 COPY requirements.txt .
 RUN pip3 install --upgrade pip -r requirements.txt
 COPY . .
-CMD [ "python3", "manage.py", "makemigrations" ]
-CMD [ "python3", "manage.py", "migrate" ]
-CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000" ] 
+RUN python3 manage.py makemigrations
+RUN python3 manage.py migrate
+RUN nohup python3 manage.py runserver 0.0.0.0:8000 &
 
 FROM node:13.2.0
 WORKDIR /app/

@@ -20,12 +20,10 @@ node {
             repo = "softboard-release/"
         }
 
-        sh "docker image prune -f"
         sh "docker build . -t ${repo}${imageName}"
-        sh "docker stop ${containerName} || true && docker rm ${containerName} || true"
         sh "docker images"
     }
-    
+
     stage('[Kubernetes] Deploy') {
         if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
             sh "kubectl apply -f ingress.yaml"
