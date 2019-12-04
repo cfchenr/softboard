@@ -24,42 +24,8 @@ class MeguaUser(AbstractUser):
         return self.first_name + " " + self.last_name
 
 
-class Exercise(models.Model):
-    ExerciseId = models.CharField(max_length=150000, blank=False, null=False)
-    Title = models.CharField(max_length=100, blank=False, null=False)
-    Problem = models.TextField(max_length=150000, blank=False, null=False)
-    Resolution = models.TextField(max_length=150000, blank=True, null=True)
-    created_by = models.ForeignKey(
-        MeguaUser, on_delete=models.DO_NOTHING, related_name="ExerciseCreatedBy")
-    create_dt = models.DateTimeField(auto_now_add=True)
-    updated_by = models.ForeignKey(MeguaUser, blank=True, null=True,
-                                   on_delete=models.DO_NOTHING, related_name="ExerciseUpdatedBy")
-    update_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.Title
-
-
-class Subheading(models.Model):
-    Exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    Order = models.CharField(max_length=25, blank=False, null=False)
-    Question = models.CharField(max_length=10000, blank=False, null=False)
-    Tags = models.CharField(max_length=250, blank=True, null=True)
-    Sugestion = models.CharField(max_length=2000, blank=True, null=True)
-    Solution = models.CharField(max_length=2000, blank=True, null=True)
-    created_by = models.ForeignKey(
-        MeguaUser, on_delete=models.DO_NOTHING, related_name="SubheadingCreatedBy")
-    create_dt = models.DateTimeField(auto_now_add=True)
-    updated_by = models.ForeignKey(MeguaUser, blank=True, null=True,
-                                   on_delete=models.DO_NOTHING, related_name="SubheadingUpdatedBy")
-    update_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.Exercise + " - " + self.Order + ")" + self.Question
-
-
 class ExerciseFile(models.Model):
-    File = models.FileField(blank=False, null=False)
+    File = models.FileField(blank=False, null=False, unique=True)
     last_modification = models.CharField(
         max_length=150000, blank=False, null=False)
     created_by = models.ForeignKey(
@@ -84,3 +50,44 @@ class ExerciseFile(models.Model):
         super(ExerciseFile, self).save(*args, **kwargs)
 
         os.rename(self.File.path, new_path)
+
+    def __str__(self):
+        return str(self.File)
+
+
+class Exercise(models.Model):
+    ExerciseId = models.CharField(
+        unique=True, max_length=150000, blank=False, null=False)
+    Title = models.CharField(max_length=100, blank=False, null=False)
+    Problem = models.TextField(max_length=150000, blank=False, null=False)
+    Tags = models.CharField(max_length=250, blank=True, null=True)
+    Suggestion = models.CharField(max_length=2000, blank=True, null=True)
+    Solution = models.CharField(max_length=2000, blank=True, null=True)
+    Resolution = models.TextField(max_length=150000, blank=True, null=True)
+    created_by = models.ForeignKey(
+        MeguaUser, on_delete=models.DO_NOTHING, related_name="ExerciseCreatedBy")
+    create_dt = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(MeguaUser, blank=True, null=True,
+                                   on_delete=models.DO_NOTHING, related_name="ExerciseUpdatedBy")
+    update_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.Title
+
+
+class Subheading(models.Model):
+    Exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    Order = models.CharField(max_length=25, blank=False, null=False)
+    Question = models.CharField(max_length=10000, blank=False, null=False)
+    Tags = models.CharField(max_length=250, blank=True, null=True)
+    Suggestion = models.CharField(max_length=2000, blank=True, null=True)
+    Solution = models.CharField(max_length=2000, blank=True, null=True)
+    created_by = models.ForeignKey(
+        MeguaUser, on_delete=models.DO_NOTHING, related_name="SubheadingCreatedBy")
+    create_dt = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(MeguaUser, blank=True, null=True,
+                                   on_delete=models.DO_NOTHING, related_name="SubheadingUpdatedBy")
+    update_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.Exercise) + " - " + self.Order + ")"

@@ -1,0 +1,64 @@
+# YAML tutorial and guide
+# https://www.tutorialspoint.com/yaml/yaml_comments.htm
+
+title: "MNE Ex. 2.14 (de numérica)"
+
+problem: >
+    <p>
+       O tempo (em minutos) que os jovens despendem a responder a pequenos questionários (entre 10 a 12 perguntas) pode considerar-se uma 
+       <a href='http://sweet.ua.pt/pedrocruz/mne/va-va.html'>v.a.</a> 
+       $X$ com 
+       <a href='http://sweet.ua.pt/pedrocruz/mne/va-funcaodensidade.html'>f.d.p.</a>
+    </p>
+    $$
+    \begin{eqnarray*}
+    f(x)=\left\{\begin{array}{lc}
+    2/3 & 1<x<2.5\\
+    0 & \mbox{outros } x
+    \end{array}\right.
+    \end{eqnarray*}
+    $$
+
+question-a: > #mostra sempre
+    Identifique, justificando, a <a href='http://sweet.ua.pt/pedrocruz/mne/d-distribuicoes.html'>distribuição teórica</a> de $X$.
+
+tags-a: #fica escondido do estudante; estas tags é que permitem escolher exercícios relacionados; ORDENAR POR FACILIDADE é um problema em aberto
+    - distribuição contínua
+    - distribuição uniforme
+    - variável aleatória
+
+suggestion-a: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
+    - sug1
+    - sug2
+
+solution-a: #escodida no início; abre se o estudante quiser ver
+    "tal e tal"
+
+question-b: >
+    $f(x) = m\times + b$ Identifique, justificando, a <a href='http://sweet.ua.pt/pedrocruz/mne/d-distribuicoes.html'>distribuição teórica</a> de $X$.
+
+tags-b:
+    - distribuição contínua
+    - distribuição uniforme
+    - variável aleatória
+
+suggestion-b:
+    - sug1
+    - sug2
+
+solution-b: "tal e tal"
+
+question-c: >
+    $$
+    \begin{eqnarray*}
+    f(x)=\left\{\begin{array}{lc}
+    2/3 & 1<x<2.5\\
+    0 & \mbox{outros } x
+    \end{array}\right.
+    \end{eqnarray*}
+    $$ Identifique, justificando, a <a href='http://sweet.ua.pt/pedrocruz/mne/d-distribuicoes.html'>distribuição teórica</a> de $X$.
+
+# question-?, tags-?, suggestion-? solution-? com ? in {a, ...,z}
+
+resolution: >
+    Resolução de todas as alíneas

@@ -1,0 +1,81 @@
+
+title: "MNE Ex. 2.28 (estatística)"
+
+
+problem: >
+    O verdadeiro peso de sacos de um quilo de uma certa marca de café é aleatório e 
+    apresenta uma densidade de probabilidade uniformemente distribuída entre 0.8 e
+    1.05Kg.
+
+    
+
+
+question-a: >
+    Indique a função densidade de probabilidade em questão.
+
+
+tags-a:
+
+    - distribuição uniforme contínua
+    - função densidade de probabilidade
+
+
+
+suggestion-a:
+
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/va-funcaodensidade.html">função densidade de probabilidade</a>
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-uniforme-continua.html">distribuição uniforme contínua</a>
+
+      
+solution-a: >
+    $$
+    \left\{
+    \begin{array}{ll}
+    \displaystyle
+    4, & \text{ se } 0.8 < x < 1.05, \\
+    0,             & \text{ outros $x$}
+    \end{array}
+    \right.
+    $$
+
+
+
+question-b: >
+    Qual a probabilidade de um saco de café pesar mais de um quilo?
+    
+    
+tags-b:
+
+    - calcular a área do retângulo
+    - distribuição uniforme contínua
+
+suggestion-b:
+
+    - calcular a área do retângulo
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-uniforme-continua.html">distribuição uniforme contínua</a>
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/c-calculadoras.html">calculadora gráfica</a>
+      
+
+solution-b: 0.2
+    
+
+
+question-c: >
+    Qual o peso esperado dos referidos sacos?
+    
+tags-c:
+
+    - esperança matemática
+    - média da população
+    - distribuição uniforme contínua  
+
+
+suggestion-c:
+
+    - <a href="http://sweet.ua.pt/pedrocruz/mne/d-uniforme-continua.html#propriedades>propriedades da distribuição uniforme</a>
+
+
+solution-c: 0.925kg
+
+
+

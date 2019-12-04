@@ -1,0 +1,31 @@
+
+> frontend@0.1.0 start /home/hec1av/Desktop/rep/repo_temp/softboard
+> react-scripts start
+
+Starting the development server...
+
+Compiled with warnings.
+
+./src/Pages/AddExercise/index.jsx
+  Line 193:19:  Function declared in a loop contains unsafe references to variable(s) 'i'  no-loop-func
+  Line 199:20:  Function declared in a loop contains unsafe references to variable(s) 'i'  no-loop-func
+
+./src/Pages/Dashboard/index.jsx
+  Line 35:44:  Expected to return a value in arrow function                                                                     array-callback-return
+  Line 68:6:   React Hook useEffect has a missing dependency: 'getExercises'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+./src/Pages/EditExercise/index.jsx
+  Line 57:53:   Expected to return a value in arrow function                                                                    array-callback-return
+  Line 290:15:  Function declared in a loop contains unsafe references to variable(s) 'i'                                       no-loop-func
+  Line 296:16:  Function declared in a loop contains unsafe references to variable(s) 'i'                                       no-loop-func
+  Line 308:6:   React Hook useEffect has a missing dependency: 'getExercise'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+./src/Pages/Components/ListExercises.jsx
+  Line 8:8:    'Badge' is defined but never used                                                                                no-unused-vars
+  Line 17:12:  'sleep' is defined but never used                                                                                no-unused-vars
+  Line 45:52:  Expected to return a value in arrow function                                                                     array-callback-return
+  Line 90:6:   React Hook useEffect has a missing dependency: 'getExercises'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+

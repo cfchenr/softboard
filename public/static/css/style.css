@@ -1,48 +1,47 @@
 html,
 body,
 #root {
-	min-height: 100%;
+  min-height: 100%;
 }
 
 * {
-	margin: 0px;
-	padding: 0px;
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	text-rendering: optimizelegibility !important;
-	font-family: 'Roboto', sans-serif;
+  text-rendering: optimizelegibility !important;
+  font-family: "Roboto", sans-serif;
+  background-color: var(--dark-color) !important;
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .background {
-	min-height: 100vh;
-	color: rgb(255, 255, 255);
-	background-color: rgb(19, 18, 26);
-	background-position: 0% 0%, 0% 0%;
-	background-repeat: repeat, repeat;
-	/* background-image: url("../img/blue_mountain_layers_5k-other.jpg"), none; */
-	background-origin: padding-box, padding-box;
-	background-clip: border-box, border-box;
-	background-size: cover;
-	background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--white-color);
+  background-color: var(--black-color);
+  background-position: 0% 0%, 0% 0%;
+  background-repeat: repeat, repeat;
+  /* background-image: url("../img/blue_mountain_layers_5k-other.jpg"), none; */
+  background-origin: padding-box, padding-box;
+  background-clip: border-box, border-box;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .content-body {
-	margin-top: 64px !important;
-	display: flex;
-	-moz-box-pack: center;
-	justify-content: center;
+  margin-top: 64px !important;
+  display: flex;
+  -moz-box-pack: center;
+  justify-content: center;
 }
 
 .content {
-	width: 100%;
-	max-width: 70%;
-	padding: 30px;
+  width: 100%;
+  max-width: 70%;
+  padding: 30px;
 }
 
 /* .content > div {
@@ -54,102 +53,107 @@ a {
 } */
 
 .tag-list {
-	display: flex;
+  display: flex;
 }
 
 .tag:first-child {
-	margin-left: 0px;
+  margin-left: 0px;
 }
 
 .tag:last-child {
-	margin-right: 0px;
+  margin-right: 0px;
 }
 
 .tag {
-	font-size: 12px;
-	line-height: 1.5;
-	margin-left: 10px;
-	margin-right: 10px;
-	padding: 10px;
-	background: rgb(4, 211, 97);
-	color: rgb(34, 34, 34);
-	border-radius: 4px;
-	cursor: default;
-	transition: all 0.3s ease 0s;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  background: var(--green-color);
+  color: var(--black-color);
+  border-radius: 4px;
+  cursor: default;
+  transition: all 0.3s ease 0s;
 }
 
 .normal-flex {
-	display: flex;
+  display: flex;
 }
 
 .normal {
-	background-color: rgb(25, 24, 31);
-	border-radius: 8px;
-	transition: all 0.2s ease 0s;
-	padding: 80px 50px;
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	-moz-box-pack: justify;
-	justify-content: space-between;
-	opacity: 1;
-	border: 2px solid rgb(25, 24, 31);
+  background-color: var(--black-color);
+  border-radius: 8px;
+  transition: all 0.2s ease 0s;
+  padding: 80px 50px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  -moz-box-pack: justify;
+  justify-content: space-between;
+  opacity: 1;
+  border: 2px solid var(--black-color);
 }
 
 .normal:hover {
-	border-color: rgb(4, 211, 97);
-	padding: 40px 50px;
+  border-color: var(--green-color);
+  padding: 40px 50px;
 }
 
 .normal-content img {
-	margin-bottom: 30px;
-	max-height: 60px;
+  margin-bottom: 30px;
+  max-height: 60px;
 }
 
 .normal-content h1 {
-	font-size: 30px;
-	font-weight: bold;
-	color: rgb(255, 255, 255);
-	margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  color: var(--white-color);
+  margin-bottom: 20px;
 }
 
 .normal-content span {
-	display: block;
-	width: 168px;
-	font-size: 14px;
-	margin-bottom: 20px;
-	color: rgb(135, 134, 139);
-	line-height: 2;
+  display: block;
+  width: 168px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: var(--grey-color);
+  line-height: 2;
 }
 
 .button-nav {
-	position: relative;
-	align-self: flex-start;
-	padding: 20px;
-	margin: 10px;
-	background-color: rgb(4, 211, 97);
-	color: rgb(34, 34, 34) !important;
-	border-radius: 4px;
-	font-size: 12px;
-	cursor: pointer;
-	transition: all 0.3s ease 0s;
-	border: 2px solid rgb(4, 211, 97);
+  position: relative;
+  align-self: flex-start;
+  padding: 20px;
+  margin: 10px;
+  background-color: var(--green-color);
+  color: var(--black-color) !important;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+  border: 2px solid var(--green-color);
 }
 
 .button-nav:hover {
-	background-color: rgb(34, 34, 34);
-	color: rgb(4, 211, 97) !important;
-	font-size: 12px;
-	border: 2px solid rgb(4, 211, 97);
+  background-color: var(--black-color);
+  color: var(--green-color) !important;
+  font-size: 12px;
+  border: 2px solid var(--green-color);
 }
 
 .mail-nav {
-	font-size: 14px;
-	color: rgb(135, 134, 139);
+  font-size: 14px;
+  color: var(--grey-color);
 }
 
 .navbar-line {
-	border-bottom-width: 1px;
-	border-bottom-color: rgba(4, 211, 97);
-	border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: var(--green-color);
+  border-bottom-style: solid;
+  background-color: var(--black-color);
+}
+
+ol {
+  margin-left: "5%";
 }

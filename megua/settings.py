@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'v1',
     'corsheaders',
+    'django_filters'
 ]
 
 REST_FRAMEWORK = {
@@ -54,6 +55,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'PAGE_SIZE': 20,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 }
@@ -77,8 +79,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=365),
 }
 
 CORS_ORIGIN_WHITELIST = [
@@ -117,9 +119,18 @@ WSGI_APPLICATION = 'megua.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd34bgfhnqsd23o',
+        'USER': 'vqdarlmjfwwprr',
+        'PASSWORD': '06c48e3d40e963c8919623ed87ebf21cf6b47bad777486cc0ed3259c1f5bfdeb',
+        'HOST': 'ec2-46-137-173-221.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -164,7 +175,6 @@ django_heroku.settings(locals())
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(PROJECT_DIR, 'static/')
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_DIRS = []
 
 # If you want to serve user uploaded files add these settings
 MEDIA_URL = '/build/media/'
