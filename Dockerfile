@@ -15,4 +15,4 @@ COPY package.json yarn.lock /app/
 COPY . /app/
 RUN yarn
 EXPOSE 3000
-RUN yarn start
+RUN yarn build
