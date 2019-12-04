@@ -16,5 +16,5 @@ spec:
         - name: softboard-container
           image: softboard-image
           ports:
-            - containerPort: 8080
+            - containerPort: 3000
           imagePullPolicy: always
