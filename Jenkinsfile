@@ -21,7 +21,7 @@ node {
         }
 
         sh "docker build . -t ${repo}${imageName}"
-        sh "docker run -dit --name softboard-container -p 80:3000 ${repo}${imageName}" 
+        sh "docker run -dit --name ${repo}softboard-container -p 80:3000 ${repo}${imageName}" 
     }
 
     stage('[Kubernetes] Deploy') {
