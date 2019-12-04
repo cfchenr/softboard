@@ -14,17 +14,17 @@ node {
     
     stage('[Docker] Build') {
         def imageName = 'softboard-image'
-        def containerName = 'softboard-container'
+        def containerName = 'softboard-container-snapshot'
         def repo = 'softboard-snapshot/'
-        def port = 80
+        def port = 8888
         if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
             repo = "softboard-release/"
-            repo = 8080
+            containerName = 'softboard-container-released'
+            port = 80
         }
 
         sh "docker build . -t ${repo}${imageName}"
-        
-        sh "docker run -dit --name ${repo}${containerName} -p ${port}:3000 ${repo}${imageName}" 
+        sh "docker run -dit --name ${containerName} -p ${port}:3000 ${repo}${imageName}" 
     }
 
     stage('[Kubernetes] Deploy') {
