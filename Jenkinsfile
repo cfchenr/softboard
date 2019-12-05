@@ -6,7 +6,7 @@ node {
     stage('[Github] Checkout Latest Source Code') {
         git branch: "${env.BRANCH_NAME}", credentialsId: 'cfchenr', url: 'https://github.com/cfchenr/softboard.git'
     }
-    
+     
     stage('[Workspace] Get Variables') {
         def config = readJSON file: "config.json"
         env.BRANCH_TO_DEPLOY = config["branchToDeploy"]
