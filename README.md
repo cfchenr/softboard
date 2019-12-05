@@ -19,6 +19,9 @@ Bootstrap
 Python
 Postman
 UML
+Jenkins
+Docker
+Kubernetes
 
 ## Estilização
 
@@ -28,10 +31,14 @@ ESLint - **Airbnb style**
 
 Desenvolver na branch **dev** e fazer pull requests para a branch **master** no final de cada _sprint_.
 
+![workflow](https://nvie.com/img/main-branches@2x.png "Workflow")
+
 ## _Deployment_
 
-Heroku, com deploy automático a partir do git (branch **master**).
-megua.herokuapp.com
+O deploy da aplicação segue a seguinte estrutura:
+![deploy](https://i0.wp.com/samratpriyadarshi.com/wp-content/uploads/2019/02/Pipeline.png?w=817&ssl=1 "Deploy")
+
+A branch **dev** está disponível na porta 8888 enquanto que a branch **master** está disponível na porta default 80.
 
 ## Construído com
 
@@ -39,7 +46,7 @@ Django (_python framework_) para o backend & ReacJS + NodeJS (_javascript framew
 
 ## Versão
 
-O versionamento do repositório é controlado pelas tags. Para saber a versão atualmente disponível basta ver a última tag na branch **master**.
+O versionamento é baseado na framework [SemVer](https://semver.org/). Para saber a versão atualmente em deploy basta ver a última tag na branch **master**.
 
 ## Autores
 

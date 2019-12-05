@@ -7,7 +7,7 @@ RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate
 RUN nohup python3 manage.py runserver 0.0.0.0:8000 &
 
-FROM node:13.2.0
+FROM node:13.2.0-alpine
 WORKDIR /app/
 COPY --from=builder . .
 COPY package.json .
