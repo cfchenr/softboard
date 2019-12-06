@@ -25,8 +25,19 @@ node {
         }
         sh "docker build . -t ${repo}${imageName}"
         sh "docker stop ${containerName} || true && docker rm ${containerName} || true"
-        sh "docker image prune -f"
-        sh "docker run -dit --name ${containerName} -p ${port}:3000 ${repo}${imageName}"
+        // sh "docker image prune -f"
+        // sh "docker run -dit --name ${containerName} -p ${port}:3000 ${repo}${imageName}"
+        
+    }
+    stage('[k8s] Deploy') {
+        sh "kubectl apply -f ingress.yaml"
+        sh "kubectl apply -f service.yaml"
+        sh "kubectl apply -f deployment.yaml"
+        sh "kubectl rollout restart deploy softboard-deploy"
+        sh "kubectl get pods"
+        sh "kubectl get deploy"
+        sh "kubectl get svc"
+        sh "kubectl get ingress"
     }
 
     if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
