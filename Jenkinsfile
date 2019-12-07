@@ -13,22 +13,23 @@ node {
         env.VERSION = config["version"]
     }
     
-    stage('[Docker] Build and Run') {
-        def imageName = 'softboard-image'
-        def containerName = 'softboard-container-snapshot'
-        def repo = 'softboard-snapshot/'
-        def port = 8888
-        if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
-            repo = "softboard-release/"
-            containerName = 'softboard-container-released'
-            port = 80
-        }
-        sh "docker build . -t ${repo}${imageName}"
-        sh "docker stop ${containerName} || true && docker rm ${containerName} || true"
-        // sh "docker image prune -f"
-        // sh "docker run -dit --name ${containerName} -p ${port}:3000 ${repo}${imageName}"
+    // stage('[Docker] Build and Run') {
+    //     def imageName = 'softboard-image'
+    //     def containerName = 'softboard-container-snapshot'
+    //     def repo = 'softboard-snapshot/'
+    //     def port = 8888
+    //     if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
+    //         repo = "softboard-release/"
+    //         containerName = 'softboard-container-released'
+    //         port = 80
+    //     }
+    //     sh "docker build . -t ${repo}${imageName}"
+    //     sh "docker stop ${containerName} || true && docker rm ${containerName} || true"
+    //     // sh "docker image prune -f"
+    //     // sh "docker run -dit --name ${containerName} -p ${port}:3000 ${repo}${imageName}"
         
-    }
+    // }
+
     stage('[k8s] Deploy') {
         sh "kubectl apply -f ingress.yaml"
         sh "kubectl apply -f service.yaml"
