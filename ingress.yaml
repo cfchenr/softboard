@@ -8,7 +8,7 @@ spec:
   rules:
     - http:
       paths:
-        path: /
+        path: /softboard
         backend:
           serviceName: softboard
           servicePort: web
