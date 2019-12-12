@@ -28,6 +28,9 @@ node {
         sh "docker image prune -f"
         sh "docker run -dit --name ${containerName} -p ${port}:3000 ${repo}${imageName}"
     }
+    
+    // @todo Add kubernetes stage
+    // @body Create kubernetes stage to deploy application
 
     if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
         stage('[Github] Add Git Tag') {
