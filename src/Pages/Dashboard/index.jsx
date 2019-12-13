@@ -11,8 +11,10 @@ import { get, remove } from "../../services/api";
 import Modal from "react-bootstrap/Modal";
 
 export default function Dashboard(props) {
+  const [loggedin, setLoggedState] = useState(false);
   const [exercises, setExercises] = useState([]);
   const [count, setCount] = useState(0);
+  const [userType, setUserType] = useState();
   const [search_string, setSearch] = useState("");
 
   const [show, setShow] = useState(false);
@@ -63,84 +65,112 @@ export default function Dashboard(props) {
       });
   };
 
+  const getPerfil = () => {
+    get(
+      "/user/" + localStorage.getItem("@megua:id") + "/",
+      {},
+      localStorage.getItem("@megua:access_token")
+    )
+      .then(response => {
+        console.log(response.results[0].user_type);
+      })
+      .catch(error => {
+        //TODO Tratamento de erros
+        console.log(error);
+      });
+  };
+
+  var login_state = localStorage.getItem("@megua:loggedin");
+
+  useState(() => {
+    if (login_state !== null) {
+      setLoggedState(true);
+      getPerfil();
+    } else {
+      window.location.replace("/");
+    }
+  }, []);
+
   useEffect(() => {
     getExercises();
   }, [search_string, count]);
 
   return (
-    <>
-      <div className="background">
-        <Navigationbar search_string={search_string} setSearch={setSearch} />
-        <div className="content-body">
-          <div className="content">
-            <Container>
-              <Row>
-                <Button href="/add_exercise/" variant="primary">
-                  Adicionar exercício
-                </Button>
-              </Row>
+    loggedin && (
+      <>
+        <div className="background">
+          <Navigationbar search_string={search_string} setSearch={setSearch} />
+          <div className="content-body">
+            <div className="content">
+              <Container>
+                <Row>
+                  <Button href="/add_exercise/" variant="primary">
+                    Adicionar exercício
+                  </Button>
+                </Row>
 
-              {exercises.map((exercise, i) => {
-                return (
-                  <Row key={i} className="mt-3">
-                    <div className="mr-auto">
-                      <h3>
-                        <a
-                          href={"/exercise/" + exercise.ExerciseId}
-                          style={{ color: "var(--white-color)" }}
-                        >
-                          {parse(exercise.Title)}
-                        </a>
-                      </h3>
-                    </div>
-                    <div className="ml-auto">
-                      <ButtonGroup size="sm">
-                        <Button
-                          variant="success"
-                          href={"/edit_exercise/" + exercise.id}
-                        >
-                          Editar
-                        </Button>
-                        <Button
-                          variant="danger"
-                          onClick={() => {
-                            deleteExercise(exercise.id);
-                          }}
-                        >
-                          Apagar
-                        </Button>
-                      </ButtonGroup>
-                    </div>
-                  </Row>
-                );
-              })}
-            </Container>
+                {exercises.map((exercise, i) => {
+                  return (
+                    <Row key={i} className="mt-3">
+                      <div className="mr-auto">
+                        <h3>
+                          <a
+                            href={"/exercise/" + exercise.ExerciseId}
+                            style={{ color: "var(--white-color)" }}
+                          >
+                            {parse(exercise.Title)}
+                          </a>
+                        </h3>
+                      </div>
+                      <div className="ml-auto">
+                        <ButtonGroup size="sm">
+                          <Button
+                            variant="success"
+                            href={"/edit_exercise/" + exercise.id}
+                          >
+                            Editar
+                          </Button>
+                          <Button
+                            variant="danger"
+                            onClick={() => {
+                              deleteExercise(exercise.id);
+                            }}
+                          >
+                            Apagar
+                          </Button>
+                        </ButtonGroup>
+                      </div>
+                    </Row>
+                  );
+                })}
+              </Container>
+            </div>
           </div>
         </div>
-      </div>
-      <Modal
-        show={show}
-        aria-labelledby="contained-modal-title-vcenter"
-        data-backdrop="static"
-        data-keyboard="false"
-        centered
-      >
-        <Modal.Body className="text-center">
-          {processing && (
-            <h4 id="processing">
-              <Spinner animation="border" variant="primary" /> A processar...
-            </h4>
+        <Modal
+          show={show}
+          aria-labelledby="contained-modal-title-vcenter"
+          data-backdrop="static"
+          data-keyboard="false"
+          centered
+        >
+          <Modal.Body className="text-center">
+            {processing && (
+              <h4 id="processing">
+                <Spinner animation="border" variant="primary" /> A processar...
+              </h4>
+            )}
+            <div id="results" className="mt-3"></div>
+          </Modal.Body>
+          {!processing && (
+            <Modal.Footer>
+              <Button variant="danger" onClick={handleClose}>
+                Fechar
+              </Button>
+            </Modal.Footer>
           )}
-          <div id="results" className="mt-3"></div>
-        </Modal.Body>
-        {!processing && (
-          <Modal.Footer>
-            <Button variant="danger" onClick={handleClose}>
-              Fechar
-            </Button>
-          </Modal.Footer>
-        )}
-      </Modal>
-    </>
+        </Modal>
+      </>
+    )
   );
 }
