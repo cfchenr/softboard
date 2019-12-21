@@ -37,6 +37,9 @@ node {
         sh "kubectl get svc"
         sh "kubectl get ingress"
     }
+    
+    // @todo Add kubernetes stage
+    // @body Create kubernetes stage to deploy application
 
     if ("${env.BRANCH_NAME}" == "${env.BRANCH_TO_DEPLOY}") {
         stage('[Github] Add Git Tag') {

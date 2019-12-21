@@ -15,6 +15,7 @@ class UserTokenSerializer(jwt_serializers.TokenObtainSerializer):
         data = super().validate(attrs)
         refresh = self.get_token(self.user)
 
+        data['id'] = self.user.id
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
 
@@ -110,11 +111,13 @@ class UserListSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(read_only=True)
     first_name = serializers.CharField(max_length=50, label='First name')
     last_name = serializers.CharField(max_length=50, label='Last name')
+    user_type = serializers.CharField(
+        max_length=100, read_only=True, label="User type")
 
     class Meta:
         model = MeguaUser
         fields = ['self', 'username', 'first_name',
-                  'last_name', 'email']
+                  'last_name', 'email', 'user_type']
 
 
 class UserRetrieveSerializer(serializers.ModelSerializer):
@@ -124,11 +127,13 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(read_only=True)
     first_name = serializers.CharField(max_length=50, label='First name')
     last_name = serializers.CharField(max_length=50, label='Last name')
+    user_type = serializers.CharField(
+        max_length=100, read_only=True, label="User type")
 
     class Meta:
         model = MeguaUser
         fields = ['self', 'username', 'first_name',
-                  'last_name', 'email']
+                  'last_name', 'email', 'user_type']
 
 
 class ExerciseSerializer(serializers.ModelSerializer):

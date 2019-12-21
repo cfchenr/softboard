@@ -37,7 +37,11 @@ export default function Navigationbar(props) {
   const [userExists, setUserExists] = useState(false);
 
   const getPerfil = () => {
-    get("/user/", {}, localStorage.getItem("@megua:access_token"))
+    get(
+      "/user/" + localStorage.getItem("@megua:id") + "/",
+      {},
+      localStorage.getItem("@megua:access_token")
+    )
       .then(response => {
         setFname(response.results[0].first_name);
         setLname(response.results[0].last_name);
@@ -59,12 +63,11 @@ export default function Navigationbar(props) {
   const login = credentials => {
     post("/token/", credentials)
       .then(response => {
-        setLoggedState(true);
-        setAuthError(null);
+        localStorage.setItem("@megua:loggedin", true);
+        localStorage.setItem("@megua:id", response.id);
         localStorage.setItem("@megua:access_token", response.access);
         localStorage.setItem("@megua:refresh_token", response.refresh);
-        getPerfil();
-        handleCloseLogin();
+        window.location.reload();
       })
       .catch(error => {
         //TODO Tratamento de erros
@@ -140,13 +143,11 @@ export default function Navigationbar(props) {
   };
 
   const logout = () => {
-    setLoggedState(false);
-    setFname(false);
-    setLname(false);
-    setUsername(false);
-    setEmail(false);
+    localStorage.removeItem("@megua:loggedin");
+    localStorage.removeItem("@megua:id");
     localStorage.removeItem("@megua:access_token");
     localStorage.removeItem("@megua:refresh_token");
+    window.location.reload();
   };
 
   const handleSubmitLogin = event => {
@@ -167,7 +168,7 @@ export default function Navigationbar(props) {
       password2: event.target.elements.cpassword.value,
       email: event.target.elements.email.value,
       email2: event.target.elements.cemail.value,
-      user_type: event.target.elements.userType.value
+      user_type: "ST"
     });
   };
 
@@ -320,13 +321,13 @@ export default function Navigationbar(props) {
                 Os emails devem coincidir
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group>
+            {/*<Form.Group>
               <Form.Label>Tipo de utilizador</Form.Label>
               <Form.Control as="select" name="userType">
                 <option value="ST">Estudante</option>
                 <option value="PROF">Professor</option>
               </Form.Control>
-            </Form.Group>
+            </Form.Group>*/}
           </Form>
         </Modal.Body>
         <Modal.Footer>
