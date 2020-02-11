@@ -204,7 +204,7 @@ class UploadExercises(views.APIView):
         user = MeguaUser.objects.get(pk=self.request.user.id)
         # TODO: VERIFICAR SE O USER É PROF
         # TODO: MUDAR
-        if user.user_type == 'PROF':
+        if user.user_type != 'PROF':
             return Response("error")
 
         data = request.data
