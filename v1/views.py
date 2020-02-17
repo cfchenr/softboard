@@ -118,7 +118,7 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['Title', 'Problem',
                      'subheading__Tags', 'ExerciseId']
-    ordering = ['update_dt']
+    ordering = ['Title']
 
     def perform_create(self, serializer):
         user = MeguaUser.objects.get(pk=self.request.user.id)
@@ -194,6 +194,7 @@ class SubheadingViewSet(viewsets.ModelViewSet):
             time.sleep(.100)
             print(e)
             return Response({"hasNotSubHeadings": True})
+
 
 class UploadExercises(views.APIView):
     parser_classes = (MultiPartParser, FormParser,)
