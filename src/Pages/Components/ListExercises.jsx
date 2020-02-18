@@ -397,8 +397,8 @@ export default function ListExercises(props) {
 					) : (
 						<Row style={{ justifyContent: 'center' }}>
 							<h3>
-								Regista-te e acede a maior base de dados de
-								exercícios!
+								Regista-te e acede à maior base de dados de
+								exercícios anotados ou com resolução!
 							</h3>
 						</Row>
 					)}
