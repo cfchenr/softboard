@@ -1,21 +1,15 @@
+# https://yaml.org/spec/1.2/spec.html
+#
 
 
-
-
-title: "[Bioestatística] Ex. 1.1"
+title: "Ex. 1.01"
 
 
 problem: >
-    <p>
     Classifique cada uma das seguintes variáveis quanto à
     <a href='http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html'>natureza (ou tipo) e escalas</a>
     (quantitativo e qualitativo e a escala em que são medidas: razões; intervalos; ordinal; nominal, e no
     caso de serem numéricas, se são contínuas ou discretas).
-    </p>
-
-
-
-
 
 
 question-a: > 
@@ -25,56 +19,46 @@ tags-a:
     - variável quantitativa contínua
     - escala de razões
 
-suggestion-a: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
-    - Um peso mede-se ou conta-se ?
+suggestion-a: 
+    - Um peso mede-se ou conta-se?
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-quantitativa.html">variável quantitativa></a>
-
-solution-a: >  #escodida no início; abre se o estudante quiser ver
-    - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-quantitativa.html">variável quantitativa contínua</a>
-    - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala de razões</a>
-
 
 
       
 question-b: > 
     Idade.
 
-tags-b:
+tags-b: 
     - variável quantitativa contínua
     - variável quantitativa discreta
     - escala ordinal
     - escala de razões
 
-suggestion-b: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
+suggestion-b: 
     - A idade conta-se?
     - E se for a idade em milisegundos?
     - Há pessoas velhas? Há pessoas novas?  
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html">natureza e escalas</a>
 
-solution-b: >  #escodida no início; abre se o estudante quiser ver
-    - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-quantitativa.html">quantitativa contínua</a>
+solution-b:
+    - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-quantitativa.html">quantitativa contínua</a>
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala de razões</a>
 
 
       
 question-c: > 
-    <p>
     Qualidade de um serviço (mau, razoável, bom);
-    </p>
 
 tags-c:
     - variável qualitativa
     - escala ordinal
 
-suggestion-c: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
+suggestion-c:
     - Há ordem?
     - É uma quantidade ou qualidade?
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html">natureza e escalas</a>
 
-solution-c: >  #escodida no início; abre se o estudante quiser ver
+solution-c: 
     - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-qualitativa.html">variável qualitativa</a>
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala ordinal</a>
 
@@ -82,22 +66,19 @@ solution-c: >  #escodida no início; abre se o estudante quiser ver
 
       
 question-d: > 
-    <p>
     Regime de estudos de um estudante da UA;
-    </p>
 
 tags-d:
     - variável qualitativa
     - escala nominal
 
-suggestion-d: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
+suggestion-d:
     - Habitualmente costuma ser: estudante do "regime geral", ou "trabalhador-estudante", "reingresso", etc
     - Há ordem?
     - É uma quantidade ou qualidade?
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html">natureza e escalas</a>
 
-solution-d: >  #escodida no início; abre se o estudante quiser ver
+solution-d:  
     - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-qualitativa.html">variável qualitativa</a>
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala nominal</a>
 
@@ -112,7 +93,7 @@ tags-e:
     - variável quantitativa
     - escala razões
 
-suggestion-e: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
+suggestion-e: 
 
     - É uma medida ou uma contagem?
     - É uma quantidade ou qualidade?
@@ -120,7 +101,7 @@ suggestion-e: #Sugestão de leitura; Mostrar os links ou frases ao estudante com
     - O zero faz sentido?
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html">natureza e escalas</a>
 
-solution-e: >  #escodida no início; abre se o estudante quiser ver
+solution-e:  
     - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-quantitativa.html">variável quantitativa discreta</a>
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala de razões</a>
 
@@ -135,14 +116,13 @@ tags-f:
     - variável qualitativa
     - escala nominal
 
-suggestion-f: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
+suggestion-f: 
     - São nomes?
     - Há ordem?
     - É uma quantidade ou qualidade?
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html">natureza e escalas</a>
 
-solution-f: >  #escodida no início; abre se o estudante quiser ver
+solution-f: 
     - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-qualitativa.html">variável qualitativa</a>
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala nominal</a>
 
@@ -157,14 +137,13 @@ tags-g:
     - variável quantitativa
     - escala de intervalos 
 
-suggestion-g: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
+suggestion-g: 
     - Uma temperatura mede-se ou conta-se?
     - Qual a unidade de medida?
     - O zero faz sentido? (<a href="https://pt.wikipedia.org/wiki/Zero_absoluto">zero absoluto Kelvin</a>)
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html">natureza e escalas</a>
 
-solution-g: >  #escodida no início; abre se o estudante quiser ver
+solution-g:  
     - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-quantitativa.html">variável quantitativa contínua</a>
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala de razões</a> se medida em graus Kelvin
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala de intervalos</a> se medida em graus C ou F.
@@ -181,14 +160,13 @@ tags-h:
     - variável quantitativa contínua
     - escala razões
 
-suggestion-h: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
+suggestion-h:
     - É uma medida ou uma contagem?
     - É uma quantidade ou qualidade?
     - O zero faz sentido?
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html">natureza e escalas</a>
 
-solution-h: >  #escodida no início; abre se o estudante quiser ver
+solution-h:  
     - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-quantitativa.html">variável quantitativa contínua</a>
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala de razões</a>
 
@@ -206,18 +184,12 @@ tags-i:
     - variável quantitativa discreta
     - escala razões
 
-suggestion-i: #Sugestão de leitura; Mostrar os links ou frases ao estudante com itemize mas fica "hidden" no início
-
+suggestion-i:
     - É uma medida ou uma contagem?
     - É uma quantidade ou qualidade?
     - O zero faz sentido?
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-natureza-escalas.html">natureza e escalas</a>
 
-solution-i: >  #escodida no início; abre se o estudante quiser ver
+solution-i: 
     - <a href"http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-quantitativa.html">variável quantitativa discreta</a>
     - <a href="http://sweet.ua.pt/pedrocruz/bioestatistica/ed-var-escalas.html">escala de razões</a>
-
-
-
-
-

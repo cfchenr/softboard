@@ -206,7 +206,7 @@ class UploadExercises(views.APIView):
         # TODO: VERIFICAR SE O USER É PROF
         # TODO: MUDAR
         if user.user_type != 'PROF':
-            return Response("error")
+            return Response("Não tem permissões para inserir exercícios. Por favor, contacte um administrador da plataforma.")
 
         data = request.data
 
@@ -222,7 +222,7 @@ class UploadExercises(views.APIView):
             file = get_object_or_404(queryset)
             if file.created_by.id != user.id:
                 # JÁ EXISTE MAS FOI CRIADO POR OUTRO USER
-                return Response("error2")
+                return Response("O exercício " + file.File + " já existe e pertence a outro utilizador.")
             # CARREGAR O SERIALIZER CASO O FICHEIRO ESTEJA NA BD
             serializer = ExerciseFileSerializer(
                 file, data=data, context={'request': request}, partial=True)
@@ -231,7 +231,7 @@ class UploadExercises(views.APIView):
             serializer = ExerciseFileSerializer(
                 data=data, context={'request': request})
 
-        if serializer.is_valid(raise_exception=True):
+        if serializer.is_valid(raise_exception=False):
             if fileExists:
                 serializer.save(updated_by=user)
             else:
@@ -255,7 +255,7 @@ class UploadExercises(views.APIView):
                 if "suggestion" in data_loaded:
                     data["Suggestion"] = str(data_loaded["suggestion"])
                 if "solution" in data_loaded:
-                    data["Solution"] = data_loaded["solution"]
+                    data["Solution"] = str(data_loaded["solution"])
                 try:
                     exercise = ExerciseSerializer(Exercise.objects.get(ExerciseId=user.username + "_" + serializer.data["File"].split(
                         "/")[-1].split(".")[0]), data=data, context={'request': request}, partial=True)
@@ -264,9 +264,9 @@ class UploadExercises(views.APIView):
                     exercise = ExerciseSerializer(
                         data=data, context={'request': request})
 
-                #TODO: KLASSIFY
+                # TODO: KLASSIFY
 
-                if exercise.is_valid(raise_exception=True):
+                if exercise.is_valid(raise_exception=False):
                     if exerciseExist:
                         instance = exercise.save(updated_by=user)
                     else:
@@ -287,7 +287,8 @@ class UploadExercises(views.APIView):
                             data["Suggestion"] = str(
                                 data_loaded["suggestion-"+order])
                         if "solution-"+order in data_loaded:
-                            data["Solution"] = data_loaded["solution-"+order]
+                            data["Solution"] = str(
+                                data_loaded["solution-"+order])
                         data["Exercise"] = instance.id
 
                         # TODO: FAZER UPDATE A ALINEA OU INSERE UMA NOVA NA BD
@@ -302,20 +303,28 @@ class UploadExercises(views.APIView):
                             subheading = SubheadingSerializer(subheading_instance,
                                                               data=data, context={'request': request})
                             # SE FOR VALIDA, GUARDA
-                            if subheading.is_valid(raise_exception=True):
+                            if subheading.is_valid(raise_exception=False):
                                 subheading.save(
                                     updated_by=user)
+                            else:
+                                return Response({'Exercise': data_loaded["title"], 'errors': subheading.errors})
                         except Exception as e:
                             # CRIA O SERIALIZER DA NOVA ALINEA
                             subheading = SubheadingSerializer(
                                 data=data, context={'request': request})
                             # SE FOR VALIDA, GUARDA
-                            if subheading.is_valid(raise_exception=True):
+                            if subheading.is_valid(raise_exception=False):
                                 subheading.save(
                                     created_by=user, Exercise=instance)
+                            else:
+                                return Response({'Exercise': data_loaded["title"], 'Subheading': order, 'errors': subheading.errors})
 
                     return Response(exercise.data)
+                else:
+                    return Response({'Exercise': data_loaded["title"], 'errors': exercise.errors})
 
-                return Response(exercise.errors)
+                return Response({'Exercise': data_loaded["title"], 'errors': exercise.errors})
+        else:
+            return Response({'Exercise': data_loaded["title"], 'errors': serializer.errors})
 
-        return Response(serializer.errors)
+        return Response({'Exercise': data_loaded["title"], 'errors': serializer.errors})
