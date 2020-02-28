@@ -1,0 +1,96 @@
+
+# https://yaml.org/spec/1.2/spec.html
+#
+
+
+title: "Ex. 1.17"
+
+
+problem: >
+    Os seguintes histogramas contêm representados os tempos de vida da 
+    população portuguesa (homens e mulheres, separadamente) falecida nos 
+    anos 1989-1999.
+   
+    <table align="center" style="width:90%">
+    <tr>
+      <th> <p style="text-align:right;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp HISTOGRAMAS</p> </th>
+    </tr>
+    <tr>
+      <td> <p style="text-align:left;">Tempos de vida dos homens.</p> </td>
+      <td> <p style="text-align:right;">Tempos de vida das mulheres.</p> </td>
+    </tr>
+    </table>
+
+    <p style="text-align:center;">
+    <img src="ex1_17a.png" width="45%">
+    <img src="ex1_17b.png" width="45%">
+    </p>
+   
+    <br>
+
+    A tabela seguinte contém algumas estatísticas associadas a esses dados.
+
+    <br>
+    <br>
+       
+    <table align="center" style="width:100%" border="1px solid black" border-collapse="collapse">
+    <tr>
+      <th></th>
+      <th>Média</th>
+      <th>Mediana</th>
+      <th>Moda</th>
+      <th>Desvio padrão</th>
+    </tr>
+    <tr>
+      <th>Homens</th>
+      <td><p style="text-align:center;"> 69.206 </p> </td> 
+      <td><p style="text-align:center;"> 73 </p> </td>
+      <td><p style="text-align:center;"> 80 </p> </td>
+      <td><p style="text-align:center;"> 16.40 </p> </td>
+    </tr>
+    <tr>
+      <th>Mulheres</th>
+      <td><p style="text-align:center;"> 78.726 </p> </td> 
+      <td><p style="text-align:center;"> 80 </p> </td>
+      <td><p style="text-align:center;"> 83 </p> </td>
+      <td><p style="text-align:center;"> 13.69 </p> </td>
+    </tr>
+    </table>
+
+
+question: > 
+    Descreva a forma da distribuição dos tempos de vida dos homens e das 
+    mulheres em Portugal, e identifique diferenças entre os dois sexos.
+
+tags:
+    - histograma
+    - Homem vs Mulher
+    - estatísticas
+    - distribuição
+    - interpretação
+
+suggestion:
+    - O que é um histograma?
+    - Que informações é possível recolher a partir de um histograma?
+    - O que são estatísticas descritivas?
+    - Que informações nos fornecem as estatísticas descritivas?
+    - Existe alguma relação entre percentagens e estatísticas descritivas?
+    - O que são medidas de localização (ou de tendência central)?
+    - O que é a média?
+    - A que corresponde uma mediana?
+    - Qual o significado de moda?
+    - Quais são as medidas de dispersão (ou de variabilidade) que se podem usar? 
+    - O que representa o desvio padrão?
+    - Como se pode analisar a simetria?
+    - Existem diferenças significativas entre homens e mulheres?  
+
+solution: >
+    Ambos apresentam uma distribuição unimodal (moda<sub>Homem</sub> &lt;
+    moda<sub>Mulher</sub>), com assimetria negativa. O tempo médio de 
+    vida da mulher é superior à do homem, apresentando menor variabilidade 
+    na mulher (s<sub>c<sub>Mulher</sub></sub>=13.69 &lt; 
+    16.40=s<sub>c<sub>Homem</sub></sub>). Pelo menos 50% das mulheres 
+    sobrevivem para além, ou até, aos 80 anos. Nos homens, pelo menos 50% 
+    sobrevivem até aos 73 anos (inclusivé).
+
+

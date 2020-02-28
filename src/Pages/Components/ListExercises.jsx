@@ -119,6 +119,7 @@ export default function ListExercises(props) {
 	function render_HTML_MATHJax(tags) {
 		return tags.map((tag, index) => {
 			if (index % 2 === 0) {
+				console.log(tag);
 				return (
 					<MathJax.Context
 						options={{
@@ -133,17 +134,19 @@ export default function ListExercises(props) {
 							text={parse('<div>' + tag + '<div>', {
 								replace: domNode => {
 									if (domNode.name === 'a') {
-										delete domNode.attribs.onclick;
-										return React.createElement(
-											'a',
-											{
-												...domNode.attribs,
-												onClick: e => {
-													handleEvent(e);
-												}
-											},
-											domNode.children[0].data
-										);
+										if (domNode.children[0] !== undefined) {
+											delete domNode.attribs.onclick;
+											return React.createElement(
+												'a',
+												{
+													...domNode.attribs,
+													onClick: e => {
+														handleEvent(e);
+													}
+												},
+												domNode.children[0].data
+											);
+										}
 									}
 								}
 							})}

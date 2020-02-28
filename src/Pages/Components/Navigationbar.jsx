@@ -347,7 +347,9 @@ export default function Navigationbar(props) {
 			</Modal>
 
 			<Container>
-				<Navbar.Brand href='/'>Home</Navbar.Brand>
+				<Navbar.Brand href='/'>
+					<div style={{ color: 'var(--brand-color)' }}>Home</div>
+				</Navbar.Brand>
 				<Navbar.Toggle aria-controls='basic-navbar-nav' />
 				<Navbar.Collapse id='basic-navbar-nav'>
 					<Form className='ml-auto' onSubmit={handleSubmit} inline>
@@ -358,6 +360,9 @@ export default function Navigationbar(props) {
 							name='search'
 						/>
 						<Button type='submit'>Pesquisar</Button>
+						<Button href='/' className='ml-2'>
+							<i class='fa fa-trash fa-1x' />
+						</Button>
 					</Form>
 					{loggedin ? (
 						<Nav className='ml-auto'>
