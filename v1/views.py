@@ -68,10 +68,10 @@ class UserListView(views.APIView):
             # TODO: Change error message
             return Response({'Error': str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
-        if user.is_superuser:
-            queryset = MeguaUser.objects.all()
-        else:
-            queryset = MeguaUser.objects.filter(pk=user.id)
+        # if user.is_superuser:
+        #     queryset = MeguaUser.objects.all()
+        # else:
+        queryset = MeguaUser.objects.filter(pk=user.id)
         user = get_list_or_404(queryset)
 
         # Get serializer and pagination
